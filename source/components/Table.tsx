@@ -64,9 +64,15 @@ export function DockerTable({data, setter}: {data: DTdata; setter: Function}) {
 	return (
 		<Box flexDirection="column" width="100%">
 			{/*<TableRow row={data.heads} head /> */}
-			{data.rows.map((row: string[], i: number) => (
-				<TableRow row={row} key={i} setter={setter} />
-			))}
+			{data.rows.length > 0 ? (
+				data.rows.map((row: string[], i: number) => (
+					<TableRow row={row} key={i} setter={setter} />
+				))
+			) : (
+				<Box justifyContent="center">
+					<Text color={'yellow'}>There's nothing to see...</Text>
+				</Box>
+			)}
 		</Box>
 	)
 }

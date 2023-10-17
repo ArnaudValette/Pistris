@@ -1,13 +1,6 @@
 import React, {Dispatch, ReactElement, SetStateAction, useState} from 'react'
 import {Box} from 'ink'
-import {
-	AllConts,
-	Build,
-	Conts,
-	Router,
-	Image,
-	Help,
-} from './components/Routes.js'
+import {Build, Conts, Router, Image, Home} from './components/Routes.js'
 
 export type CommandHelpProps = {
 	name: string
@@ -26,10 +19,9 @@ export type DTdata = {
 }
 
 const Dispatch: RouterDisp = {
-	init: Help,
+	init: Home,
 	image: Image,
 	conts: Conts,
-	'conts-all': AllConts,
 	build: Build,
 }
 

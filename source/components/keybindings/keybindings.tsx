@@ -20,6 +20,29 @@ export function helpModeMap({setMode}: RouterProps) {
 	}
 }
 
+export function contsModeMap({
+	setMode,
+	remove,
+	start,
+	kill,
+	filter,
+}: RouterProps & {
+	remove: Function
+	start: Function
+	kill: Function
+	filter: Function
+}) {
+	const {exit} = useApp()
+	return {
+		q: new CME('quit', () => exit()),
+		b: new CME('home', () => setMode('init')),
+		r: new CME('remove', () => remove()),
+		s: new CME('start', () => start()),
+		x: new CME('kill', () => kill()),
+		f: new CME('show/hide active', () => filter()),
+	}
+}
+
 export function imageModeMap({
 	setMode,
 	remove,

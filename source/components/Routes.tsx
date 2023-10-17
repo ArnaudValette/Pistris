@@ -3,13 +3,14 @@ import {RouterDisp, RouterProps} from '../app.js'
 import React from 'react'
 import {DockerTable, useDockerTable} from './Table.js'
 import {
+	contsModeMap,
 	helpModeMap,
 	imageModeMap,
 	upDownNav,
 } from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
-import {CH} from './CommandPannel.js'
 import {HelpFooter} from './HelpFooter.js'
+import {HomePage} from './HomePage.js'
 
 export function Router({
 	mode,
@@ -50,33 +51,32 @@ export function Image(p: RouterProps) {
 	)
 }
 export function Conts(p: RouterProps) {
-	console.log(p)
-	return (
-		<Box>
-			<Text>Conts</Text>
-		</Box>
-	)
-}
-export function AllConts(p: RouterProps) {
-	const {data} = useDockerTable('docker ps -a')
-	function remove() {}
-	function run() {}
-	const map = imageModeMap({...p, remove, run})
-	const nav = upDownNav()
+	const d1 = useDockerTable('docker ps -a')
+	const d2 = useDockerTable('docker ps')
+	const [toggle, setToggle] = useState(false)
 	const [sel, setSel] = useState([])
+	function remove() {
+		console.log(sel)
+	}
+	function start() {}
+	function kill() {}
+	function filter() {
+		setToggle(t => !t)
+	}
+	const map = contsModeMap({...p, remove, start, filter, kill})
+	const nav = upDownNav()
 	useInput((input, k) => {
 		nav(k, input)
 		if (map[input as keyof typeof map]) {
-			const res = map[input as keyof typeof map].exec()
-			if (res === 'remove') {
-				console.log(sel)
-			}
+			map[input as keyof typeof map].exec()
 		}
 	})
 	return (
 		<>
 			<Box padding={1}>
-				{data && <DockerTable data={data} setter={setSel} />}
+				{d1 && d2 && (
+					<DockerTable data={toggle ? d2.data : d1.data} setter={setSel} />
+				)}
 			</Box>
 			<HelpFooter map={map} />
 		</>
@@ -91,7 +91,7 @@ export function Build(p: RouterProps) {
 	)
 }
 
-export function Help(p: RouterProps) {
+export function Home(p: RouterProps) {
 	const map = helpModeMap(p)
 	useInput(input => {
 		if (map[input as keyof typeof map]) {
@@ -99,12 +99,11 @@ export function Help(p: RouterProps) {
 		}
 	})
 	return (
-		<Box flexDirection="row" flexWrap="wrap">
-			<CH name="Q" explt="Quit" />
-			<CH name="i" explt="List images" />
-			<CH name="c" explt="List active containers" />
-			<CH name="a" explt="List all containers" />
-			<CH name="b" explt="Build from current dir" />
-		</Box>
+		<>
+			<Box flexDirection="row">
+				<HomePage />
+			</Box>
+			<HelpFooter map={map} />
+		</>
 	)
 }
