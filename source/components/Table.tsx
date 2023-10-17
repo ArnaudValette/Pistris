@@ -52,7 +52,7 @@ export function TableRow({
 		>
 			{row.map((s: string, i: number) => (
 				<Box justifyContent="center" key={i} width={`${100 / row.length}%`}>
-					<Text color={f.isFocused ? 'blue' : 'white'} dimColor={head || false}>
+					<Text color={f.isFocused ? 'white' : 'blue'} dimColor={head || false}>
 						{s}
 					</Text>
 				</Box>
@@ -63,7 +63,7 @@ export function TableRow({
 export function DockerTable({data, setter}: {data: DTdata; setter: Function}) {
 	return (
 		<Box flexDirection="column" width="100%">
-			<TableRow row={data.heads} head />
+			{/*<TableRow row={data.heads} head /> */}
 			{data.rows.map((row: string[], i: number) => (
 				<TableRow row={row} key={i} setter={setter} />
 			))}

@@ -58,11 +58,28 @@ export function Conts(p: RouterProps) {
 	)
 }
 export function AllConts(p: RouterProps) {
-	console.log(p)
+	const {data} = useDockerTable('docker ps -a')
+	function remove() {}
+	function run() {}
+	const map = imageModeMap({...p, remove, run})
+	const nav = upDownNav()
+	const [sel, setSel] = useState([])
+	useInput((input, k) => {
+		nav(k, input)
+		if (map[input as keyof typeof map]) {
+			const res = map[input as keyof typeof map].exec()
+			if (res === 'remove') {
+				console.log(sel)
+			}
+		}
+	})
 	return (
-		<Box>
-			<Text>AllConts</Text>
-		</Box>
+		<>
+			<Box padding={1}>
+				{data && <DockerTable data={data} setter={setSel} />}
+			</Box>
+			<HelpFooter map={map} />
+		</>
 	)
 }
 export function Build(p: RouterProps) {
