@@ -27,14 +27,18 @@ export function Image(p: RouterProps) {
 	const [sel, setSel] = useState([])
 	useInput(input => {
 		if (map[input as keyof typeof map]) {
-			const res = map[input as keyof typeof map]()
+			const res = map[input as keyof typeof map].exec()
 			if (res === 'remove') {
 				console.log(sel)
 			}
 		}
 	})
 	return (
-		<Box padding={1}>{data && <DockerTable data={data} setter={setSel} />}</Box>
+		<>
+			<Box padding={1}>
+				{data && <DockerTable data={data} setter={setSel} />}
+			</Box>
+		</>
 	)
 }
 export function Conts(p: RouterProps) {
@@ -66,7 +70,7 @@ export function Help(p: RouterProps) {
 	const map = helpModeMap(p)
 	useInput(input => {
 		if (map[input as keyof typeof map]) {
-			map[input as keyof typeof map]()
+			map[input as keyof typeof map].exec()
 		}
 	})
 	return (

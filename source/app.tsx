@@ -36,7 +36,7 @@ const Dispatch: RouterDisp = {
 export default function App() {
 	const [mode, setMode] = useState<keyof RouterDisp>('init')
 	return (
-		<Box borderStyle="round">
+		<Box borderStyle="round" flexDirection="column">
 			<Router dsptch={Dispatch} mode={mode} setMode={setMode} />
 		</Box>
 	)
