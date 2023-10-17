@@ -1,5 +1,5 @@
 import React, {Dispatch, ReactElement, SetStateAction, useState} from 'react'
-import {Box} from 'ink'
+import {Box, Text} from 'ink'
 import {Build, Conts, Router, Image, Home} from './components/Routes.js'
 
 export type CommandHelpProps = {
@@ -19,16 +19,19 @@ export type DTdata = {
 }
 
 const Dispatch: RouterDisp = {
-	init: Home,
-	image: Image,
-	conts: Conts,
+	Home: Home,
+	Images: Image,
+	Containers: Conts,
 	build: Build,
 }
 
 export default function App() {
-	const [mode, setMode] = useState<keyof RouterDisp>('init')
+	const [mode, setMode] = useState<keyof RouterDisp>('Home')
 	return (
 		<Box borderStyle="round" flexDirection="column">
+			<Box margin={1}>
+				<Text bold inverse>{`    ${mode}    `}</Text>
+			</Box>
 			<Router dsptch={Dispatch} mode={mode} setMode={setMode} />
 		</Box>
 	)

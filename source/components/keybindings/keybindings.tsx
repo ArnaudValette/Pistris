@@ -13,8 +13,8 @@ export function helpModeMap({setMode}: RouterProps) {
 	const {exit} = useApp()
 	return {
 		q: new CME('quit', () => exit()),
-		i: new CME('list images', () => setMode('image')),
-		c: new CME('list containers', () => setMode('conts')),
+		i: new CME('list images', () => setMode('Images')),
+		c: new CME('list containers', () => setMode('Containers')),
 		b: new CME('build from dir', () => setMode('build')),
 	}
 }
@@ -34,7 +34,8 @@ export function contsModeMap({
 	const {exit} = useApp()
 	return {
 		q: new CME('quit', () => exit()),
-		b: new CME('home', () => setMode('init')),
+		b: new CME('home', () => setMode('Home')),
+		i: new CME('list images', () => setMode('Images')),
 		d: new CME('remove', () => remove()),
 		o: new CME('start', () => start()),
 		x: new CME('kill', () => kill()),
@@ -50,7 +51,8 @@ export function imageModeMap({
 	const {exit} = useApp()
 	return {
 		q: new CME('quit', () => exit()),
-		b: new CME('home', () => setMode('init')),
+		b: new CME('home', () => setMode('Home')),
+		c: new CME('list containers', () => setMode('Containers')),
 		d: new CME('remove image', () => remove()),
 		o: new CME('Run image', () => run()),
 	}
