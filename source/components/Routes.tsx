@@ -2,7 +2,11 @@ import {Fragment, ReactElement, useState} from 'react'
 import {RouterDisp, RouterProps} from '../app.js'
 import React from 'react'
 import {DockerTable, useDockerTable} from './Table.js'
-import {helpModeMap, imageModeMap} from './keybindings/keybindings.js'
+import {
+	helpModeMap,
+	imageModeMap,
+	upDownNav,
+} from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
 import {CH} from './CommandPannel.js'
 import {HelpFooter} from './HelpFooter.js'
@@ -25,8 +29,10 @@ export function Image(p: RouterProps) {
 		console.log(sel)
 	}
 	const map = imageModeMap({...p, remove, run})
+	const nav = upDownNav()
 	const [sel, setSel] = useState([])
-	useInput(input => {
+	useInput((input, k) => {
+		nav(k, input)
 		if (map[input as keyof typeof map]) {
 			const res = map[input as keyof typeof map].exec()
 			if (res === 'remove') {

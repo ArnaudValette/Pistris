@@ -1,4 +1,4 @@
-import {useApp} from 'ink'
+import {Key, useApp, useFocusManager} from 'ink'
 import {RouterProps} from '../../app.js'
 
 export class CME {
@@ -32,4 +32,17 @@ export function imageModeMap({
 		r: new CME('remove image', () => remove()),
 		R: new CME('Run image', () => run()),
 	}
+}
+
+export function upDownNav() {
+	const {focusNext, focusPrevious} = useFocusManager()
+	function processKey(k: Key, i: string) {
+		if (k.upArrow || i === 'k') {
+			focusPrevious()
+		}
+		if (k.downArrow || i === 'j') {
+			focusNext()
+		}
+	}
+	return processKey
 }
