@@ -36,23 +36,30 @@ function CH({name, explt}: CommandHelpProps) {
 		</Box>
 	)
 }
-function Help(p: RouterProps) {
+function useModeMap({mode, setMode}: RouterProps) {
 	const {exit} = useApp()
+	console.log(mode)
+	const globalModeMap = {
+		q: () => exit(),
+	}
+	const helpModeMap = {
+		i: () => setMode('image'),
+		c: () => setMode('conts'),
+		a: () => setMode('conts-all'),
+		b: () => setMode('build'),
+	}
+	const imageModeMap = {
+		r: () => {},
+		R: () => {},
+	}
+	return {globalModeMap, helpModeMap, imageModeMap}
+}
+function Help(p: RouterProps) {
+	const {globalModeMap, helpModeMap} = useModeMap(p)
+	const map = {...globalModeMap, ...helpModeMap}
 	useInput(input => {
-		if (input === 'q') {
-			exit()
-		}
-		if (input === 'i') {
-			p.setMode('image')
-		}
-		if (input === 'c') {
-			p.setMode('conts')
-		}
-		if (input === 'a') {
-			p.setMode('conts-all')
-		}
-		if (input === 'b') {
-			p.setMode('build')
+		if (map[input as keyof typeof map]) {
+			map[input as keyof typeof map]()
 		}
 	})
 	return (
@@ -119,8 +126,14 @@ function DockerTable({data}: {data: DTdata}) {
 	)
 }
 function Image(p: RouterProps) {
-	console.log(p)
 	const {data} = useDockerTable('docker image ls')
+	const {globalModeMap, imageModeMap} = useModeMap(p)
+	const map = {...globalModeMap, ...imageModeMap}
+	useInput(input => {
+		if (map[input as keyof typeof map]) {
+			map[input as keyof typeof map]()
+		}
+	})
 	return <Box padding={1}>{data && <DockerTable data={data} />}</Box>
 }
 function Conts(p: RouterProps) {
