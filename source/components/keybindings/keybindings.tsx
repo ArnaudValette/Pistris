@@ -1,7 +1,7 @@
 import {useApp} from 'ink'
 import {RouterProps} from '../../app.js'
 
-class CME {
+export class CME {
 	d: string
 	exec: Function
 	constructor(d: string, exec: Function) {

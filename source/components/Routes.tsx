@@ -5,6 +5,7 @@ import {DockerTable, useDockerTable} from './Table.js'
 import {helpModeMap, imageModeMap} from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
 import {CH} from './CommandPannel.js'
+import {HelpFooter} from './HelpFooter.js'
 
 export function Router({
 	mode,
@@ -38,6 +39,7 @@ export function Image(p: RouterProps) {
 			<Box padding={1}>
 				{data && <DockerTable data={data} setter={setSel} />}
 			</Box>
+			<HelpFooter map={map} />
 		</>
 	)
 }
