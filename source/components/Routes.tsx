@@ -43,7 +43,7 @@ export function Image(p: RouterProps) {
 	})
 	return (
 		<>
-			<Box padding={1}>
+			<Box padding={1} marginBottom={2}>
 				{data && <DockerTable data={data} setter={setSel} />}
 			</Box>
 			<HelpFooter map={map} />
@@ -73,7 +73,7 @@ export function Conts(p: RouterProps) {
 	})
 	return (
 		<>
-			<Box padding={1}>
+			<Box padding={1} marginBottom={2}>
 				{d1 && d2 && (
 					<DockerTable data={toggle ? d2.data : d1.data} setter={setSel} />
 				)}
@@ -100,7 +100,7 @@ export function Home(p: RouterProps) {
 	})
 	return (
 		<>
-			<Box flexDirection="row">
+			<Box flexDirection="row" marginBottom={2}>
 				<HomePage />
 			</Box>
 			<HelpFooter map={map} />
