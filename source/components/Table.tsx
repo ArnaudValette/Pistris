@@ -1,7 +1,7 @@
 import {exec} from 'child_process'
 import {Text, Box, useApp, useFocus} from 'ink'
 import React, {useEffect, useState} from 'react'
-import {DTdata} from '../app.js'
+import {DTdata, TableProps} from '../app.js'
 
 export function useDockerTable(command: string): {data: DTdata} {
 	const {exit} = useApp()
@@ -60,7 +60,7 @@ export function TableRow({
 		</Box>
 	)
 }
-export function DockerTable({data, setter}: {data: DTdata; setter: Function}) {
+export function DockerTable({data, setter}: TableProps) {
 	return (
 		<Box flexDirection="column" width="100%">
 			{/*<TableRow row={data.heads} head /> */}

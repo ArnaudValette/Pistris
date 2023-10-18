@@ -1,6 +1,7 @@
 import React, {Dispatch, ReactElement, SetStateAction, useState} from 'react'
 import {Box, Text} from 'ink'
-import {Build, Conts, Router, Image, Home} from './components/Routes.js'
+import {Build, Conts, Router, Home} from './components/Routes.js'
+import {Img} from './components/routes/Image.js'
 
 export type CommandHelpProps = {
 	name: string
@@ -12,15 +13,21 @@ export type RouterDisp = {
 export type RouterProps = {
 	mode: keyof RouterDisp
 	setMode: Dispatch<SetStateAction<keyof RouterDisp>>
+	dsptch: RouterDisp
+	data?: any
 }
 export type DTdata = {
 	heads: string[]
 	rows: Array<Array<string>>
 }
+export type TableProps = {
+	data: DTdata
+	setter: Function
+}
 
 const Dispatch: RouterDisp = {
 	Home: Home,
-	Images: Image,
+	Images: Img,
 	Containers: Conts,
 	build: Build,
 }
