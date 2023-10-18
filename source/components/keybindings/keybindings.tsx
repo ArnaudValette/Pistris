@@ -108,6 +108,19 @@ export function inputFieldModeMap({accept}: {accept: Function}) {
 	})
 }
 
+export function runImageOptionsModeMap({
+	setT,
+	setI,
+}: {
+	setT: Function
+	setI: Function
+}) {
+	return {
+		i: new CME('Toggle interactive', () => setI((i: boolean) => !i)),
+		t: new CME('Toggle tty', () => setT((t: boolean) => !t)),
+	}
+}
+
 export function upDownNav() {
 	const {focusNext, focusPrevious} = useFocusManager()
 	function processKey(k: Key, i: string) {
@@ -121,8 +134,8 @@ export function upDownNav() {
 	return processKey
 }
 
-export function useCustomInput(map: {[key: string]: CME}) {
-	const nav = upDownNav()
+export function useCustomInput(map: {[key: string]: CME}, noNav?: boolean) {
+	const nav = noNav || false ? () => {} : upDownNav()
 	return useInput((input, k) => {
 		nav(k, input)
 		const i: keyof typeof map = input

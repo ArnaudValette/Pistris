@@ -16,6 +16,7 @@ export function runCommand({
 		if (stdout) {
 			success()
 		}
+		return success()
 	})
 }
 
