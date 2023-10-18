@@ -9,6 +9,7 @@ import {
 import {Box, Text} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
 import {handleError, runCommand} from '../../lib/functions.js'
+import {useFlashInfo} from '../useFlashInfo.js'
 
 type ImgSubProps = {
 	setMode: Function
@@ -83,8 +84,7 @@ export function ImageSelect({
 
 export function RmImg({sel, setMode, removeByValueAtIndex}: ImgSubProps) {
 	const [s, setS] = useState<string | null>(null)
-	const [errors, setE] = useState<number>(0)
-	const [toggle, setToggle] = useState<boolean>(false)
+	const {flash, Flasher} = useFlashInfo({s: 'Container deleted.'})
 	function fail({s}: {s: string}) {
 		const cHash: string = (
 			s.split(' ').filter((word: string) => word.length >= 12) as [
@@ -93,20 +93,13 @@ export function RmImg({sel, setMode, removeByValueAtIndex}: ImgSubProps) {
 			]
 		)[1]
 		setS(cHash)
-		setE(e => e + 1)
 	}
 	function success() {
 		removeByValueAtIndex({index: 2, value: sel[2]})
 		setMode('Image')
 	}
-	function deleteAnimation() {
-		setToggle(true)
-		setTimeout(() => {
-			setToggle(false)
-		}, 200)
-	}
 	function rmCont() {
-		deleteAnimation()
+		flash()
 		runCommand({
 			c: `docker container rm --force ${s}`,
 			fail: handleError,
@@ -128,20 +121,9 @@ export function RmImg({sel, setMode, removeByValueAtIndex}: ImgSubProps) {
 		<>
 			<Box justifyContent="center" paddingBottom={3} paddingTop={2}>
 				{!s ? (
-					<>
-						<Text>Are you sure you want to remove </Text>
-						<Text bold color="red">
-							{sel[0]}
-						</Text>
-						<Text> ?</Text>
-					</>
-				) : !toggle ? (
-					<>
-						<Box marginRight={3}>
-							<Text bold color={'yellow'}>
-								{errors}.
-							</Text>
-						</Box>
+					<Confirmator data={sel[0] || 'undefined'} />
+				) : (
+					<Flasher>
 						<Text>
 							<Text color={'red'} bold>
 								{sel[0]}{' '}
@@ -152,12 +134,21 @@ export function RmImg({sel, setMode, removeByValueAtIndex}: ImgSubProps) {
 							<Text color={'blue'}>(Y/n) </Text>
 							<Text>?</Text>
 						</Text>
-					</>
-				) : (
-					<Text color={'blue'}>Container deleted</Text>
+					</Flasher>
 				)}
 			</Box>
 			<HelpFooter map={map} />
+		</>
+	)
+}
+export function Confirmator({data}: {data: string}) {
+	return (
+		<>
+			<Text>Are you sure you want to remove </Text>
+			<Text bold color="red">
+				{data}
+			</Text>
+			<Text> ?</Text>
 		</>
 	)
 }
