@@ -99,6 +99,15 @@ export function runImgModeMap({
 	}
 }
 
+export function inputFieldModeMap({accept}: {accept: Function}) {
+	useInput((input, key) => {
+		if (key.return) {
+			accept()
+		} else if (input) {
+		}
+	})
+}
+
 export function upDownNav() {
 	const {focusNext, focusPrevious} = useFocusManager()
 	function processKey(k: Key, i: string) {
