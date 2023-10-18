@@ -8,6 +8,7 @@ import {
 } from '../keybindings/keybindings.js'
 import {Box, Text} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
+import {runCommand} from '../../lib/functions.js'
 
 type ImgSubProps = {
 	setMode: Function
@@ -79,7 +80,21 @@ export function ImageSelect({
 }
 
 export function RmImg({sel, setMode}: ImgSubProps) {
-	function accept() {}
+	const [s, setS] = useState<string | null>(null)
+	function fail({s}: {s: string}) {
+		//12
+		const cHash: string = (
+			s.split(' ').filter((word: string) => word.length >= 12) as [
+				string,
+				string,
+			]
+		)[1]
+		setS(cHash)
+	}
+	function success() {}
+	function accept() {
+		runCommand({c: `docker image rm ${sel[2]}`, fail, success})
+	}
 	function abort() {
 		setMode('Image')
 	}
@@ -87,8 +102,29 @@ export function RmImg({sel, setMode}: ImgSubProps) {
 	useCustomInput(map)
 	return (
 		<>
-			<Box>
-				<Text>{sel}</Text>
+			<Box justifyContent="center" paddingBottom={3} paddingTop={2}>
+				{!s ? (
+					<>
+						<Text>Are you sure you want to remove </Text>
+						<Text bold color="red">
+							{sel[0]}
+						</Text>
+						<Text> ?</Text>
+					</>
+				) : (
+					<>
+						<Text>
+							<Text color={'red'} bold>
+								{sel[0]}{' '}
+							</Text>
+							<Text>is used in container </Text>
+							<Text italic>{s} </Text>
+							<Text> kill and remove this container </Text>
+							<Text color={'blue'}>(Y/n) </Text>
+							<Text>?</Text>
+						</Text>
+					</>
+				)}
 			</Box>
 			<HelpFooter map={map} />
 		</>
