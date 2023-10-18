@@ -1,8 +1,12 @@
 import React, {ReactElement, useState} from 'react'
 import {DTdata, RouterProps, TableProps} from '../../app.js'
 import {DockerTable, useDockerTable} from '../Table.js'
-import {imageModeMap, upDownNav} from '../keybindings/keybindings.js'
-import {Box, Text, useInput} from 'ink'
+import {
+	imageModeMap,
+	rmImgModeMap,
+	useCustomInput,
+} from '../keybindings/keybindings.js'
+import {Box, Text} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
 
 type ImgSubProps = {
@@ -25,6 +29,7 @@ const ImageDispatch = {
 	RmImg: RmImg,
 	RunImg: RunImg,
 }
+
 export function Img(p: RouterProps) {
 	const {data} = useDockerTable('docker image ls')
 	const [mode, setMode] = useState('Image')
@@ -57,18 +62,12 @@ export function ImageSelect({
 	p,
 	setMode,
 }: TableProps & {p: RouterProps; setMode: Function}) {
-	const nav = upDownNav()
 	const map = imageModeMap({
 		...p,
 		remove: () => setMode('RmImg'),
 		run: () => setMode('RunImg'),
 	})
-	useInput((input, k) => {
-		nav(k, input)
-		if (map[input as keyof typeof map]) {
-			map[input as keyof typeof map].exec()
-		}
-	})
+	useCustomInput(map)
 	return (
 		<>
 			<Box padding={1} marginBottom={2}>
@@ -79,11 +78,20 @@ export function ImageSelect({
 	)
 }
 
-export function RmImg({sel}: ImgSubProps) {
+export function RmImg({sel, setMode}: ImgSubProps) {
+	function accept() {}
+	function abort() {
+		setMode('Image')
+	}
+	const map = rmImgModeMap({accept, abort})
+	useCustomInput(map)
 	return (
-		<Box>
-			<Text>{sel}</Text>
-		</Box>
+		<>
+			<Box>
+				<Text>{sel}</Text>
+			</Box>
+			<HelpFooter map={map} />
+		</>
 	)
 }
 export function RunImg({sel}: ImgSubProps) {
