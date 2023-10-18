@@ -1,4 +1,4 @@
-import {exec} from 'child_process'
+import {ExecException, exec} from 'child_process'
 
 export function runCommand({
 	c,
@@ -17,4 +17,9 @@ export function runCommand({
 			success()
 		}
 	})
+}
+
+export function handleError({error}: {error: ExecException}) {
+	console.log(error)
+	return error
 }

@@ -8,7 +8,7 @@ import {
 } from '../keybindings/keybindings.js'
 import {Box, Text} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
-import {runCommand} from '../../lib/functions.js'
+import {handleError, runCommand} from '../../lib/functions.js'
 
 type ImgSubProps = {
 	setMode: Function
@@ -16,6 +16,7 @@ type ImgSubProps = {
 	p: RouterProps
 	data: DTdata
 	setter: Function
+	removeByValueAtIndex: Function
 }
 type ImgDisp = {
 	[key: string]: (props: ImgSubProps) => ReactElement<any, any>
@@ -32,12 +33,13 @@ const ImageDispatch = {
 }
 
 export function Img(p: RouterProps) {
-	const {data} = useDockerTable('docker image ls')
+	const {data, removeByValueAtIndex} = useDockerTable('docker image ls')
 	const [mode, setMode] = useState('Image')
 	const [sel, setSel] = useState([])
 	return (
 		<>
 			<ImgSubRouter
+				removeByValueAtIndex={removeByValueAtIndex}
 				Routes={ImageDispatch}
 				mode={mode}
 				setMode={setMode}
@@ -79,10 +81,11 @@ export function ImageSelect({
 	)
 }
 
-export function RmImg({sel, setMode}: ImgSubProps) {
+export function RmImg({sel, setMode, removeByValueAtIndex}: ImgSubProps) {
 	const [s, setS] = useState<string | null>(null)
+	const [errors, setE] = useState<number>(0)
+	const [toggle, setToggle] = useState<boolean>(false)
 	function fail({s}: {s: string}) {
-		//12
 		const cHash: string = (
 			s.split(' ').filter((word: string) => word.length >= 12) as [
 				string,
@@ -90,10 +93,31 @@ export function RmImg({sel, setMode}: ImgSubProps) {
 			]
 		)[1]
 		setS(cHash)
+		setE(e => e + 1)
 	}
-	function success() {}
-	function accept() {
+	function success() {
+		removeByValueAtIndex({index: 2, value: sel[2]})
+		setMode('Image')
+	}
+	function deleteAnimation() {
+		setToggle(true)
+		setTimeout(() => {
+			setToggle(false)
+		}, 200)
+	}
+	function rmCont() {
+		deleteAnimation()
+		runCommand({
+			c: `docker container rm --force ${s}`,
+			fail: handleError,
+			success: rmImg,
+		})
+	}
+	function rmImg() {
 		runCommand({c: `docker image rm ${sel[2]}`, fail, success})
+	}
+	function accept() {
+		return s ? rmCont() : rmImg()
 	}
 	function abort() {
 		setMode('Image')
@@ -111,8 +135,13 @@ export function RmImg({sel, setMode}: ImgSubProps) {
 						</Text>
 						<Text> ?</Text>
 					</>
-				) : (
+				) : !toggle ? (
 					<>
+						<Box marginRight={3}>
+							<Text bold color={'yellow'}>
+								{errors}.
+							</Text>
+						</Box>
 						<Text>
 							<Text color={'red'} bold>
 								{sel[0]}{' '}
@@ -124,6 +153,8 @@ export function RmImg({sel, setMode}: ImgSubProps) {
 							<Text>?</Text>
 						</Text>
 					</>
+				) : (
+					<Text color={'blue'}>Container deleted</Text>
 				)}
 			</Box>
 			<HelpFooter map={map} />

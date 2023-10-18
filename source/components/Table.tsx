@@ -3,9 +3,25 @@ import {Text, Box, useApp, useFocus} from 'ink'
 import React, {useEffect, useState} from 'react'
 import {DTdata, TableProps} from '../app.js'
 
-export function useDockerTable(command: string): {data: DTdata} {
+export function useDockerTable(command: string): {
+	data: DTdata
+	removeByValueAtIndex: Function
+} {
 	const {exit} = useApp()
 	const [data, setData] = useState<DTdata>({heads: [], rows: []})
+	function removeByValueAtIndex({
+		value,
+		index,
+	}: {
+		value: string
+		index: number
+	}) {
+		setData(data => {
+			const heads = data.heads
+			const rows = data.rows.filter(d => d[index] !== value)
+			return {heads, rows}
+		})
+	}
 	function DockerTable(s: string): DTdata {
 		const lines = s.split('\n')
 		lines.pop()
@@ -25,7 +41,7 @@ export function useDockerTable(command: string): {data: DTdata} {
 		})
 	}, [])
 
-	return {data}
+	return {data, removeByValueAtIndex}
 }
 
 export function TableRow({
