@@ -2,9 +2,10 @@ import React, {ReactElement, useState} from 'react'
 import {DTdata, RouterProps, TableProps} from '../../app.js'
 import {DockerTable, useDockerTable} from '../Table.js'
 import {imageModeMap, useCustomInput} from '../keybindings/keybindings.js'
-import {Box, Text} from 'ink'
+import {Box} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
 import {RmImg} from './rmImage.js'
+import {RunImg} from './runImage.js'
 
 export type ImgSubProps = {
 	setMode: Function
@@ -74,13 +75,5 @@ export function ImageSelect({
 			</Box>
 			<HelpFooter map={map} />
 		</>
-	)
-}
-
-export function RunImg({sel}: ImgSubProps) {
-	return (
-		<Box>
-			<Text>{sel}</Text>
-		</Box>
 	)
 }
