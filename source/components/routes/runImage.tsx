@@ -1,7 +1,7 @@
 import React from 'react'
 import {ImgSubProps} from './Image.js'
 import {Box, useStdout} from 'ink'
-import {runCommand} from '../../lib/functions.js'
+import {runDockerAndExit} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress, useProgress} from '../Progress.js'
@@ -42,29 +42,37 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		rProps.setMode('Containers')
 	}
 
-	function fail({s}: any) {
+	function fail(s: any) {
 		console.log(s)
 		setMode('Image')
 	}
 
 	function commit() {
-		const base = 'docker run '
+		const base = 'run'
 		const h = host.getValue()
 		const l = local.getValue()
 		const next = []
 		ti.forEach((sd: SetterData) => {
 			if (sd.getState()) {
-				next.push(`-${sd.short} `)
+				next.push(`-${sd.short}`)
 			}
 		})
-		next.push(`-p ${h}:${l} `)
-		next.push(`--name ${name.getValue()} `)
+		if (p[0]?.getState()) {
+			next.push(`-p`)
+			next.push(`${h}:${l}`)
+		}
+		if (n[0]?.getState()) {
+			next.push(`--name`)
+			next.push(`${name.getValue()}`)
+		}
 		next.push(`${sel[0]}:${sel[1]}`)
 		if (c[0]?.getState()) {
-			next.push(` ${command.getValue()}`)
+			next.push(`${command.getValue()}`)
 		}
-		const res = base.concat(next.join(''))
-		runCommand({c: res, fail, success})
+		//const res = base.concat(next.join(''))
+		const res = [base, ...next]
+		//runCommand({c: res, fail, success})
+		runDockerAndExit({c: res, fail, success})
 	}
 
 	return (
