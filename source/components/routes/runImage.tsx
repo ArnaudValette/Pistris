@@ -5,7 +5,7 @@ import {runDockerAndExit} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress, useProgress} from '../Progress.js'
-import {useBackModeMap} from '../keybindings/keybindings.js'
+import {useAbortMap, useBackModeMap} from '../keybindings/keybindings.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, local] = usePorts([
@@ -37,6 +37,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	])
 	const prog = useProgress()
 	const map = useBackModeMap(prog.back)
+	const abortMap = useAbortMap(() => setMode('Image'))
 	const x = useStdout()
 
 	function success() {
@@ -83,6 +84,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 				state={prog.state}
 				elements={[
 					<OptionToggler
+						addMap={abortMap}
 						setters={p}
 						progress={() => prog.jump(3, !p[0]?.getState())}
 					/>,

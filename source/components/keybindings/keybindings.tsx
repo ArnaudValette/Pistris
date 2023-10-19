@@ -136,6 +136,11 @@ export function useBackModeMap(back: Function) {
 		b: new CME('Back', () => back()),
 	}
 }
+export function useAbortMap(abort: Function) {
+	return {
+		b: new CME('Back', () => abort()),
+	}
+}
 export function useCustomInput(map: {[key: string]: CME}, noNav?: boolean) {
 	const nav = noNav || false ? () => {} : upDownNav()
 	return useInput((input, k) => {
