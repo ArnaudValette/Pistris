@@ -1,5 +1,5 @@
 import {Box, Text, useFocus, useInput} from 'ink'
-import React, {MutableRefObject, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {ImgSubProps} from './routes/Image.js'
 import TextInput from 'ink-text-input'
 import Fuse from 'fuse.js'
@@ -32,12 +32,7 @@ export function PreSearch({data, setMode, focused}: ImgSubProps) {
 		},
 	})
 	return (
-		<Search
-			searchable={searchable}
-			dummy={dummy}
-			setFocused={setFocused}
-			focused={focused}
-		/>
+		<Search searchable={searchable} dummy={dummy} setFocused={setFocused} />
 	)
 }
 export type PreSearchData = {searchable: string[]; dummy: Array<FuseRes>}
@@ -45,8 +40,7 @@ export function Search({
 	searchable,
 	dummy,
 	setFocused,
-	focused,
-}: PreSearchData & {setFocused: Function; focused: MutableRefObject<number>}) {
+}: PreSearchData & {setFocused: Function}) {
 	const {val, setVal} = useSearch()
 	return (
 		<Box
@@ -71,7 +65,6 @@ export function Search({
 					dummy={dummy}
 					val={val}
 					setFocused={setFocused}
-					focused={focused}
 				/>
 			</Box>
 		</Box>
@@ -84,12 +77,9 @@ function FuzzySearch({
 	searchable,
 	val,
 	setFocused,
-	//@ts-ignore
-	focused,
 }: PreSearchData & {
 	val: string
 	setFocused: Function
-	focused: MutableRefObject<number>
 }) {
 	//@ts-ignore
 	const x = new Fuse(searchable, {includeScore: true})
