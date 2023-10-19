@@ -3,7 +3,7 @@ import {ImgSubProps} from './Image.js'
 import {Box, useStdout} from 'ink'
 import {runCommand} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
-import {Port, PortMappingProps, usePorts} from '../Input.js'
+import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress} from '../Progress.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
@@ -11,12 +11,16 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		{name: 'Host', default: '3000'},
 		{name: 'Local', default: '3000'},
 	]) as [PortMappingProps, PortMappingProps]
+	const name = useName({name: 'Give it a name:', default: 'my-new-application'})
 	const ti = useOptionsHook([
 		{name: 'tty', short: 't', description: 'Toggle tty'},
 		{name: 'interactive', short: 'i', description: 'Toggle interactive'},
 	])
 	const p = useOptionsHook([
 		{name: 'bind ports', short: 'p', description: 'Toggle port mapping'},
+	])
+	const n = useOptionsHook([
+		{name: 'Give it a name', short: 'n', description: 'Name the container'},
 	])
 	const [state, setState] = useState(0)
 	const x = useStdout()
@@ -46,6 +50,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 			}
 		})
 		next.push(`-p ${h}:${l} `)
+		next.push(`--name ${name.getValue()} `)
 		next.push(`${sel[0]}:${sel[1]}`)
 		const res = base.concat(next.join(''))
 		runCommand({c: res, fail, success})
@@ -69,6 +74,17 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 					<Port {...host} progress={inc} />,
 					<Port {...local} progress={inc} />,
 
+					<OptionToggler
+						setters={n}
+						progress={() => {
+							if (n[0]?.getState()) {
+								setState(4)
+							} else {
+								setState(5)
+							}
+						}}
+					/>,
+					<Name {...name} progress={inc} />,
 					<OptionToggler setters={ti} progress={commit} />,
 				]}
 			/>

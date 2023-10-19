@@ -59,3 +59,35 @@ export function usePortMapping(data: PortData): PortMappingProps {
 export function usePorts(data: Array<PortData>): Array<PortMappingProps> {
 	return data.map((d: PortData) => usePortMapping(d))
 }
+
+export function useName(data: {name: string; default: string}) {
+	const [x, setX] = useState<string>('')
+	function getValue() {
+		return x === '' ? data.default : x
+	}
+	return {value: x, setter: setX, name: data.name, getValue}
+}
+export function Name({setter, value, name, progress}: PortProps) {
+	inputFieldModeMap({accept: () => progress()})
+	return (
+		<Box justifyContent="center" flexDirection="column">
+			<Text>
+				<Text bold>{name}</Text>:
+				<Text color={'blue'}>
+					(enter to skip, defaulted to{' '}
+					<Text italic>{'my-new-application'}</Text>)
+				</Text>
+				:
+			</Text>
+			<Box
+				justifyContent="center"
+				borderStyle={'single'}
+				borderColor={'blue'}
+				borderDimColor
+				minWidth={10}
+			>
+				<TextInput value={value} onChange={setter} />
+			</Box>
+		</Box>
+	)
+}
