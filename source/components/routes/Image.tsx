@@ -6,7 +6,7 @@ import {Box} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
 import {RmImg} from './rmImage.js'
 import {RunImg} from './runImage.js'
-import {Search} from '../Search.js'
+import {PreSearch} from '../Search.js'
 
 export type ImgSubProps = {
 	setMode: Function
@@ -28,7 +28,7 @@ const ImageDispatch = {
 	Image: ImageSelect,
 	RmImg: RmImg,
 	RunImg: RunImg,
-	Search: Search,
+	Search: PreSearch,
 }
 
 export function Img(p: RouterProps) {
@@ -63,7 +63,10 @@ export function ImageSelect({
 	setter,
 	rProps,
 	setMode,
-}: TableProps & {rProps: RouterProps; setMode: Function}) {
+}: TableProps & {
+	rProps: RouterProps
+	setMode: Function
+}) {
 	const map = imageModeMap({
 		...rProps,
 		remove: () => setMode('RmImg'),

@@ -102,6 +102,26 @@ export function runImgModeMap({
 	}
 }
 
+export function customModeMap(obj: {[key: string]: Function}) {
+	const entries = Object.entries(obj)
+	useInput((input, key) => {
+		entries.forEach(([k, f]: [string, Function]) => {
+			if (key[k as keyof typeof key]) {
+				f()
+			}
+		})
+		if (input) {
+		}
+	})
+}
+export function escapeModeMap({escape}: {escape: Function}) {
+	useInput((input, key) => {
+		if (key.escape) {
+			escape()
+		} else if (input) {
+		}
+	})
+}
 export function inputFieldModeMap({accept}: {accept: Function}) {
 	useInput((input, key) => {
 		if (key.return) {

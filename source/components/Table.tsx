@@ -49,13 +49,17 @@ export function TableRow({
 	head,
 	setter,
 	id,
+	focused,
 }: {
 	row: string[]
 	id: number
+	focused: boolean
 	head?: boolean
 	setter?: Function
 }) {
-	const f = head ? {isFocused: false} : useFocus({autoFocus: true, id: `${id}`})
+	const f = head
+		? {isFocused: false}
+		: useFocus({autoFocus: focused, id: `${id}`})
 	useEffect(() => {
 		if (f.isFocused && setter) {
 			setter(row)
@@ -78,13 +82,19 @@ export function TableRow({
 		</Box>
 	)
 }
-export function DockerTable({data, setter}: TableProps) {
+export function DockerTable({data, setter, focused}: TableProps) {
 	return (
 		<Box flexDirection="column" width="100%">
 			{/*<TableRow row={data.heads} head /> */}
 			{data.rows.length > 0 ? (
 				data.rows.map((row: string[], i: number) => (
-					<TableRow row={row} key={i} id={i} setter={setter} />
+					<TableRow
+						row={row}
+						key={i}
+						id={i}
+						setter={setter}
+						focused={focused === i}
+					/>
 				))
 			) : (
 				<Box justifyContent="center">

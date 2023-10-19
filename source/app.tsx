@@ -23,6 +23,7 @@ export type DTdata = {
 export type TableProps = {
 	data: DTdata
 	setter: Function
+	focused?: number
 }
 
 const Dispatch: RouterDisp = {
