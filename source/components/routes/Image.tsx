@@ -6,6 +6,7 @@ import {Box} from 'ink'
 import {HelpFooter} from '../HelpFooter.js'
 import {RmImg} from './rmImage.js'
 import {RunImg} from './runImage.js'
+import {Search} from '../Search.js'
 
 export type ImgSubProps = {
 	setMode: Function
@@ -27,6 +28,7 @@ const ImageDispatch = {
 	Image: ImageSelect,
 	RmImg: RmImg,
 	RunImg: RunImg,
+	Search: Search,
 }
 
 export function Img(p: RouterProps) {
@@ -66,6 +68,7 @@ export function ImageSelect({
 		...rProps,
 		remove: () => setMode('RmImg'),
 		run: () => setMode('RunImg'),
+		find: () => setMode('Search'),
 	})
 	useCustomInput(map)
 	return (

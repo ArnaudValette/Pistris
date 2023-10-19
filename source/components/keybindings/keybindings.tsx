@@ -53,7 +53,8 @@ export function imageModeMap({
 	setMode,
 	remove,
 	run,
-}: RouterProps & {remove: Function; run: Function}) {
+	find,
+}: RouterProps & {remove: Function; run: Function; find: Function}) {
 	const {exit} = useApp()
 	return {
 		q: new Q(exit),
@@ -61,6 +62,7 @@ export function imageModeMap({
 		c: new CME('list containers', () => setMode('Containers')),
 		d: new CME('remove image', () => remove()),
 		o: new CME('Run image', () => run()),
+		'/': new CME('Search', () => find()),
 	}
 }
 
