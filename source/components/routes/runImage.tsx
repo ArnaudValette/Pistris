@@ -3,11 +3,13 @@ import {ImgSubProps} from './Image.js'
 import {Box, useStdout} from 'ink'
 import {runCommand} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
-import {Port} from '../Input.js'
+import {Port, PortMappingProps, usePorts} from '../Input.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
-	const [host, setHost] = useState<string>('')
-	const [local, setLocal] = useState<string>('')
+	const [host, local] = usePorts([
+		{name: 'Host', default: '3000'},
+		{name: 'Local', default: '3000'},
+	]) as [PortMappingProps, PortMappingProps]
 	const ti = useOptionsHook([
 		{name: 'tty', short: 't', description: 'Toggle tty'},
 		{name: 'interactive', short: 'i', description: 'Toggle interactive'},
@@ -22,12 +24,6 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		setState(s => s + 1)
 	}
 
-	function add(setter: Function, value: string) {
-		if (/^[0-9]*$/.test(value) && value.length <= 5) {
-			setter(value)
-		}
-	}
-
 	function success() {
 		console.log(x)
 		rProps.setMode('Containers')
@@ -40,8 +36,8 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 
 	function commit() {
 		const base = 'docker run '
-		const h = host === '' ? '3000' : host
-		const l = local === '' ? '3000' : local
+		const h = host.getValue()
+		const l = local.getValue()
 		const next = []
 		ti.forEach((sd: SetterData) => {
 			if (sd.getState()) {
@@ -68,19 +64,9 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 					}}
 				/>
 			) : state === 1 ? (
-				<Port
-					name={'Host'}
-					setter={s => add(setHost, s)}
-					value={host}
-					progress={inc}
-				/>
+				<Port {...host} progress={inc} />
 			) : state === 2 ? (
-				<Port
-					name={'Client'}
-					setter={s => add(setLocal, s)}
-					value={local}
-					progress={inc}
-				/>
+				<Port {...local} progress={inc} />
 			) : (
 				<OptionToggler setters={ti} progress={commit} />
 			)}
