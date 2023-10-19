@@ -19,5 +19,12 @@ export function useProgress() {
 	function inc() {
 		setState(x => x + 1)
 	}
-	return {state, jump}
+	function incOrCommit(commitFunction?: Function, c?: boolean) {
+		if (commitFunction && c) {
+			commitFunction()
+		} else {
+			inc()
+		}
+	}
+	return {state, jump, incOrCommit}
 }

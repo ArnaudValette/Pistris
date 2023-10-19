@@ -12,9 +12,21 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		{name: 'Local', default: '3000'},
 	]) as [PortMappingProps, PortMappingProps]
 	const name = useName({name: 'Give it a name:', default: 'my-new-application'})
+	const command = useName({
+		name: 'Run additional commands (passed to the container)',
+		default: '',
+	})
 	const ti = useOptionsHook([
 		{name: 'tty', short: 't', description: 'Toggle tty'},
 		{name: 'interactive', short: 'i', description: 'Toggle interactive'},
+		{name: 'background', short: 'd', description: 'Toggle run in background'},
+	])
+	const c = useOptionsHook([
+		{
+			name: 'Run additionnal commands (passed to the container)',
+			short: 'c',
+			description: 'Append commands',
+		},
 	])
 	const p = useOptionsHook([
 		{name: 'bind ports', short: 'p', description: 'Toggle port mapping'},
@@ -48,6 +60,9 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		next.push(`-p ${h}:${l} `)
 		next.push(`--name ${name.getValue()} `)
 		next.push(`${sel[0]}:${sel[1]}`)
+		if (c[0]?.getState()) {
+			next.push(` ${command.getValue()}`)
+		}
 		const res = base.concat(next.join(''))
 		runCommand({c: res, fail, success})
 	}
@@ -69,7 +84,11 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 						progress={() => prog.jump(2, !n[0]?.getState())}
 					/>,
 					<Name {...name} progress={prog.jump} />,
-					<OptionToggler setters={ti} progress={commit} />,
+					<OptionToggler
+						setters={[...ti, ...c]}
+						progress={() => prog.incOrCommit(commit, !c[0]?.getState())}
+					/>,
+					<Name {...command} progress={commit} />,
 				]}
 			/>
 		</Box>

@@ -73,11 +73,6 @@ export function Name({setter, value, name, progress}: PortProps) {
 		<Box justifyContent="center" flexDirection="column">
 			<Text>
 				<Text bold>{name}</Text>:
-				<Text color={'blue'}>
-					(enter to skip, defaulted to{' '}
-					<Text italic>{'my-new-application'}</Text>)
-				</Text>
-				:
 			</Text>
 			<Box
 				justifyContent="center"
