@@ -4,6 +4,7 @@ import {Box, useStdout} from 'ink'
 import {runCommand} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Port, PortMappingProps, usePorts} from '../Input.js'
+import {Progress} from '../Progress.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, local] = usePorts([
@@ -52,24 +53,25 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 
 	return (
 		<Box justifyContent="center">
-			{state === 0 ? (
-				<OptionToggler
-					setters={p}
-					progress={() => {
-						if (p[0]?.getState()) {
-							setState(1)
-						} else {
-							setState(3)
-						}
-					}}
-				/>
-			) : state === 1 ? (
-				<Port {...host} progress={inc} />
-			) : state === 2 ? (
-				<Port {...local} progress={inc} />
-			) : (
-				<OptionToggler setters={ti} progress={commit} />
-			)}
+			<Progress
+				state={state}
+				elements={[
+					<OptionToggler
+						setters={p}
+						progress={() => {
+							if (p[0]?.getState()) {
+								setState(1)
+							} else {
+								setState(3)
+							}
+						}}
+					/>,
+					<Port {...host} progress={inc} />,
+					<Port {...local} progress={inc} />,
+
+					<OptionToggler setters={ti} progress={commit} />,
+				]}
+			/>
 		</Box>
 	)
 }
