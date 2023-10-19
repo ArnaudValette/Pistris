@@ -26,9 +26,8 @@ export type SpawnArgs = {
 	fail: Function
 	detached?: boolean
 }
-//@ts-ignore
 export function runDockerAndExit({c, fail, detached}: SpawnArgs) {
-	app.spawn('docker', c, {detached: detached, stdio: 'inherit'})
+	app.spawn('docker', c, {detached: detached, stdio: 'inherit'}, fail)
 }
 
 export function handleError({error}: {error: ExecException}) {

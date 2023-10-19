@@ -7,8 +7,7 @@ import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress, useProgress} from '../Progress.js'
 import {useAbortMap, useBackModeMap} from '../keybindings/keybindings.js'
 
-//@ts-ignore
-export function RunImg({sel, setMode, rProps}: ImgSubProps) {
+export function RunImg({sel, setMode}: ImgSubProps) {
 	const [host, local] = usePorts([
 		{name: 'Host', default: '3000'},
 		{name: 'Local', default: '3000'},

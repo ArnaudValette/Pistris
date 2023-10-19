@@ -41,6 +41,7 @@ class Renderer {
 		name: string,
 		c: string[],
 		options: {stdio: StdioOptions; detached?: boolean},
+		fail: Function,
 	) {
 		this.kill()
 		this.proc = spawn(name, c, {
@@ -52,7 +53,7 @@ class Renderer {
 				this.render()
 			}, 200),
 		)
-		this.proc.on('error', error => console.error(error))
+		this.proc.on('error', error => fail(error))
 	}
 	kill() {
 		this.clear()
