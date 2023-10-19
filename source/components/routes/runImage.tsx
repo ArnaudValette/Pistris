@@ -67,10 +67,9 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		if (c[0]?.getState()) {
 			next.push(`${command.getValue()}`)
 		}
-		//const res = base.concat(next.join(''))
 		const res = [base, ...next]
-		//runCommand({c: res, fail, success})
-		runDockerAndExit({c: res, fail})
+		const detached = ti[2]?.getState() as boolean
+		runDockerAndExit({c: res, fail, detached: detached})
 	}
 
 	return (

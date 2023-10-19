@@ -1,5 +1,5 @@
-import {ExecException, exec, spawn} from 'child_process'
-import {kill, rend} from '../cli.js'
+import {ExecException, exec} from 'child_process'
+import {app} from '../cli.js'
 
 export function runCommand({
 	c,
@@ -21,14 +21,14 @@ export function runCommand({
 	})
 }
 
-export type SpawnArgs = {c: string[]; fail: Function}
-export function runDockerAndExit({c, fail}: SpawnArgs) {
-	kill()
-	const dkProc = spawn('docker', c, {
-		stdio: 'inherit',
-	})
-	dkProc.on('exit', () => rend())
-	dkProc.on('error', err => fail(err))
+export type SpawnArgs = {
+	c: string[]
+	fail: Function
+	detached?: boolean
+}
+//@ts-ignore
+export function runDockerAndExit({c, fail, detached}: SpawnArgs) {
+	app.spawn('docker', c, {detached: detached, stdio: 'inherit'})
 }
 
 export function handleError({error}: {error: ExecException}) {
