@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {ImgSubProps} from './Image.js'
 import {Box, useStdout} from 'ink'
 import {runCommand} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
-import {Progress} from '../Progress.js'
+import {Progress, useProgress} from '../Progress.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, local] = usePorts([
@@ -22,12 +22,8 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const n = useOptionsHook([
 		{name: 'Give it a name', short: 'n', description: 'Name the container'},
 	])
-	const [state, setState] = useState(0)
+	const prog = useProgress()
 	const x = useStdout()
-
-	function inc() {
-		setState(s => s + 1)
-	}
 
 	function success() {
 		console.log(x)
@@ -59,32 +55,20 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	return (
 		<Box justifyContent="center">
 			<Progress
-				state={state}
+				state={prog.state}
 				elements={[
 					<OptionToggler
 						setters={p}
-						progress={() => {
-							if (p[0]?.getState()) {
-								setState(1)
-							} else {
-								setState(3)
-							}
-						}}
+						progress={() => prog.jump(3, !p[0]?.getState())}
 					/>,
-					<Port {...host} progress={inc} />,
-					<Port {...local} progress={inc} />,
+					<Port {...host} progress={prog.jump} />,
+					<Port {...local} progress={prog.jump} />,
 
 					<OptionToggler
 						setters={n}
-						progress={() => {
-							if (n[0]?.getState()) {
-								setState(4)
-							} else {
-								setState(5)
-							}
-						}}
+						progress={() => prog.jump(2, !n[0]?.getState())}
 					/>,
-					<Name {...name} progress={inc} />,
+					<Name {...name} progress={prog.jump} />,
 					<OptionToggler setters={ti} progress={commit} />,
 				]}
 			/>
