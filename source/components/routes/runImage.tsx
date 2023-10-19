@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 import {ImgSubProps} from './Image.js'
-import {Box, Text, useStdout} from 'ink'
-import TextInput from 'ink-text-input'
-import {inputFieldModeMap} from '../keybindings/keybindings.js'
+import {Box, useStdout} from 'ink'
 import {runCommand} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
+import {Port} from '../Input.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, setHost] = useState<string>('')
@@ -85,37 +84,6 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 			) : (
 				<OptionToggler setters={ti} progress={commit} />
 			)}
-		</Box>
-	)
-}
-
-type PortProps = {
-	setter: (s: string) => void
-	value: string
-	progress: Function
-	name: string
-}
-
-function Port({setter, value, name, progress}: PortProps) {
-	inputFieldModeMap({accept: () => progress()})
-	return (
-		<Box justifyContent="center" flexDirection="column">
-			<Text>
-				<Text bold>{name}</Text> port{' '}
-				<Text color={'blue'}>
-					(enter to skip, defaulted to <Text italic>3000</Text>)
-				</Text>
-				:
-			</Text>
-			<Box
-				justifyContent="center"
-				borderStyle={'single'}
-				borderColor={'blue'}
-				borderDimColor
-				minWidth={10}
-			>
-				<TextInput value={value} onChange={setter} />
-			</Box>
 		</Box>
 	)
 }
