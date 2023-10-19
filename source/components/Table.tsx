@@ -93,7 +93,7 @@ export function DockerTable({data, setter, focused}: TableProps) {
 						key={i}
 						id={i}
 						setter={setter}
-						focused={focused === i}
+						focused={focused?.current === i}
 					/>
 				))
 			) : (

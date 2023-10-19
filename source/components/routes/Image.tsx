@@ -1,4 +1,4 @@
-import React, {ReactElement, useState} from 'react'
+import React, {MutableRefObject, ReactElement, useRef, useState} from 'react'
 import {DTdata, RouterProps, TableProps} from '../../app.js'
 import {DockerTable, useDockerTable} from '../Table.js'
 import {imageModeMap, useCustomInput} from '../keybindings/keybindings.js'
@@ -13,6 +13,7 @@ export type ImgSubProps = {
 	sel: Array<string>
 	rProps: RouterProps
 	data: DTdata
+	focused: MutableRefObject<number>
 	setter: Function
 	removeByValueAtIndex: Function
 }
@@ -35,6 +36,7 @@ export function Img(p: RouterProps) {
 	const {data, removeByValueAtIndex} = useDockerTable('docker image ls')
 	const [mode, setMode] = useState('Image')
 	const [sel, setSel] = useState([])
+	const focused = useRef<number>(0)
 	return (
 		<>
 			<ImgSubRouter
@@ -44,6 +46,7 @@ export function Img(p: RouterProps) {
 				setMode={setMode}
 				sel={sel}
 				rProps={p}
+				focused={focused}
 				data={data}
 				setter={setSel}
 			/>
@@ -63,9 +66,11 @@ export function ImageSelect({
 	setter,
 	rProps,
 	setMode,
+	focused,
 }: TableProps & {
 	rProps: RouterProps
 	setMode: Function
+	focused: MutableRefObject<number>
 }) {
 	const map = imageModeMap({
 		...rProps,
@@ -77,7 +82,7 @@ export function ImageSelect({
 	return (
 		<>
 			<Box padding={1} marginBottom={2}>
-				{data && <DockerTable data={data} setter={setter} />}
+				{data && <DockerTable data={data} setter={setter} focused={focused} />}
 			</Box>
 			<HelpFooter map={map} />
 		</>

@@ -1,4 +1,10 @@
-import React, {Dispatch, ReactElement, SetStateAction, useState} from 'react'
+import React, {
+	Dispatch,
+	MutableRefObject,
+	ReactElement,
+	SetStateAction,
+	useState,
+} from 'react'
 import {Box, Text} from 'ink'
 import {Build, Conts, Router, Home} from './components/Routes.js'
 import {Img} from './components/routes/Image.js'
@@ -23,7 +29,7 @@ export type DTdata = {
 export type TableProps = {
 	data: DTdata
 	setter: Function
-	focused?: number
+	focused?: MutableRefObject<number>
 }
 
 const Dispatch: RouterDisp = {

@@ -140,14 +140,20 @@ export function guessMapFromSetters(setters: Array<SetterData>): KeyMap {
 	return map
 }
 
-export function upDownNav() {
+export function upDownNav(up?: Function, down?: Function) {
 	const {focusNext, focusPrevious} = useFocusManager()
 	function processKey(k: Key, i: string) {
 		if (k.upArrow || i === 'k') {
 			focusPrevious()
+			if (up) {
+				up()
+			}
 		}
 		if (k.downArrow || i === 'j') {
 			focusNext()
+			if (down) {
+				down()
+			}
 		}
 	}
 	return processKey

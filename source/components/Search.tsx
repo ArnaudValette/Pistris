@@ -1,16 +1,16 @@
-import {Box, Text} from 'ink'
-import React, {useState} from 'react'
+import {Box, Text, useFocus, useInput} from 'ink'
+import React, {MutableRefObject, useEffect, useState} from 'react'
 import {ImgSubProps} from './routes/Image.js'
 import TextInput from 'ink-text-input'
 import Fuse from 'fuse.js'
-import {customModeMap} from './keybindings/keybindings.js'
+import {customModeMap, upDownNav} from './keybindings/keybindings.js'
 
 export function useSearch() {
 	const [val, setVal] = useState<string>('')
 	return {val, setVal}
 }
 
-export function PreSearch({data, setMode}: ImgSubProps) {
+export function PreSearch({data, setMode, focused}: ImgSubProps) {
 	const searchable: Array<string> = data.rows.map(
 		(a: string[]) => a[0] as string,
 	)
@@ -20,7 +20,7 @@ export function PreSearch({data, setMode}: ImgSubProps) {
 		score: 1,
 	}))
 	const setFocused = (n: number) => {
-		console.log(n)
+		focused.current = n
 	}
 	customModeMap({
 		escape: () => {
@@ -32,7 +32,12 @@ export function PreSearch({data, setMode}: ImgSubProps) {
 		},
 	})
 	return (
-		<Search searchable={searchable} dummy={dummy} setFocused={setFocused} />
+		<Search
+			searchable={searchable}
+			dummy={dummy}
+			setFocused={setFocused}
+			focused={focused}
+		/>
 	)
 }
 export type PreSearchData = {searchable: string[]; dummy: Array<FuseRes>}
@@ -40,7 +45,8 @@ export function Search({
 	searchable,
 	dummy,
 	setFocused,
-}: PreSearchData & {setFocused: Function}) {
+	focused,
+}: PreSearchData & {setFocused: Function; focused: MutableRefObject<number>}) {
 	const {val, setVal} = useSearch()
 	return (
 		<Box
@@ -65,6 +71,7 @@ export function Search({
 					dummy={dummy}
 					val={val}
 					setFocused={setFocused}
+					focused={focused}
 				/>
 			</Box>
 		</Box>
@@ -76,30 +83,57 @@ function FuzzySearch({
 	dummy,
 	searchable,
 	val,
-	//@ts-ignore
 	setFocused,
-}: PreSearchData & {val: string; setFocused: Function}) {
+	//@ts-ignore
+	focused,
+}: PreSearchData & {
+	val: string
+	setFocused: Function
+	focused: MutableRefObject<number>
+}) {
 	//@ts-ignore
 	const x = new Fuse(searchable, {includeScore: true})
 	const v = x.search(val) as Array<FuseRes>
 	const res = (v.length === 0 ? dummy : v).sort(
 		(a: FuseRes, b: FuseRes) => a.score - b.score,
 	)
-	setFocused(res[0]?.refIndex)
-	console.log(res[0]?.refIndex)
+
+	setFocused(res[0]?.refIndex || 0)
+	const nav = upDownNav()
+	useInput((input, k) => {
+		nav(k, input)
+	})
 	return (
 		<>
-			{res.map((a: FuseRes, i: number) =>
-				i !== 0 ? (
-					<Text key={i} color={'blue'}>
-						{a.item}
-					</Text>
-				) : (
-					<Text key={i} bold>
-						{a.item}
-					</Text>
-				),
-			)}
+			{res.map((a: FuseRes, i: number) => (
+				<FuzzyElement
+					item={a.item}
+					key={i}
+					index={i}
+					data={a}
+					setFocused={setFocused}
+				/>
+			))}
 		</>
+	)
+}
+type FuzzyElementProps = {
+	isFocused?: boolean
+	setFocused: Function
+	index: number
+	item: string
+	data: FuseRes
+}
+function FuzzyElement({item, data, setFocused, index}: FuzzyElementProps) {
+	const f = useFocus({autoFocus: index === 0})
+	useEffect(() => {
+		if (f.isFocused) {
+			setFocused(data.refIndex)
+		}
+	}, [f.isFocused])
+	return (
+		<Text color={f.isFocused ? 'white' : 'blue'} bold={f.isFocused}>
+			{item}
+		</Text>
 	)
 }
