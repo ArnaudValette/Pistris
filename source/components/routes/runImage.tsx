@@ -4,7 +4,7 @@ import {Box, Text, useStdout} from 'ink'
 import TextInput from 'ink-text-input'
 import {inputFieldModeMap} from '../keybindings/keybindings.js'
 import {runCommand} from '../../lib/functions.js'
-import {OptionToggler, useOptionsHook} from '../OptionToggler.js'
+import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, setHost] = useState<string>('')
@@ -44,8 +44,11 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		const h = host === '' ? '3000' : host
 		const l = local === '' ? '3000' : local
 		const next = []
-		if (ti[0]?.hook[0]) next.push('-t ')
-		if (ti[1]?.hook[0]) next.push('-i ')
+		ti.forEach((sd: SetterData) => {
+			if (sd.getState()) {
+				next.push(`-${sd.short} `)
+			}
+		})
 		next.push(`-p ${h}:${l} `)
 		next.push(`${sel[0]}:${sel[1]}`)
 		const res = base.concat(next.join(''))
@@ -58,7 +61,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 				<OptionToggler
 					setters={p}
 					progress={() => {
-						if (p[0]?.hook[0]) {
+						if (p[0]?.getState()) {
 							setState(1)
 						} else {
 							setState(3)

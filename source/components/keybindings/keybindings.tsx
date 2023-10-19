@@ -113,7 +113,7 @@ export type KeyMap = {[key: string]: CME}
 export function guessMapFromSetters(setters: Array<SetterData>): KeyMap {
 	const map: KeyMap = {}
 	setters.forEach((s: SetterData) => {
-		map[s.short] = new CME(s.description, () => s.hook[1]((b: boolean) => !b))
+		map[s.short] = new CME(s.description, () => s.toggle())
 	})
 	return map
 }

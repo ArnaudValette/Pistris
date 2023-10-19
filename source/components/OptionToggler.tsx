@@ -45,7 +45,7 @@ export function OptionToggler({setters, progress}: OptionTogglerProps) {
 				flexDirection="column"
 			>
 				{setters.map((s: SetterData, index: number) => (
-					<Option key={index} name={s.name} val={s.hook[0]} />
+					<Option key={index} name={s.name} val={s.getState()} />
 				))}
 			</Box>
 			<HelpFooter map={map} />
@@ -91,5 +91,11 @@ export class SetterData implements _SetterData {
 		this.short = short
 		this.description = description
 		this.hook = hook
+	}
+	toggle() {
+		return this.hook[1](!this.hook[0])
+	}
+	getState() {
+		return this.hook[0]
 	}
 }
