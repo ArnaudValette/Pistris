@@ -131,6 +131,11 @@ export function upDownNav() {
 	return processKey
 }
 
+export function useBackModeMap(back: Function) {
+	return {
+		b: new CME('Back', () => back()),
+	}
+}
 export function useCustomInput(map: {[key: string]: CME}, noNav?: boolean) {
 	const nav = noNav || false ? () => {} : upDownNav()
 	return useInput((input, k) => {

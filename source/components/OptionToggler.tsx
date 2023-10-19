@@ -1,5 +1,6 @@
 import React, {Dispatch, SetStateAction, useState} from 'react'
 import {
+	KeyMap,
 	guessMapFromSetters,
 	inputFieldModeMap,
 	useCustomInput,
@@ -10,6 +11,7 @@ import {Box, Text} from 'ink'
 export type OptionTogglerProps = {
 	setters: Array<SetterData>
 	progress: Function
+	addMap?: KeyMap
 }
 
 type optionsData = {
@@ -25,8 +27,8 @@ export function useOptionsHook(data: Array<optionsData>): Array<SetterData> {
 	})
 }
 
-export function OptionToggler({setters, progress}: OptionTogglerProps) {
-	const map = guessMapFromSetters(setters)
+export function OptionToggler({setters, progress, addMap}: OptionTogglerProps) {
+	const map = {...guessMapFromSetters(setters), ...addMap}
 	useCustomInput(map, false)
 	inputFieldModeMap({accept: () => progress()})
 	return (

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {inputFieldModeMap} from './keybindings/keybindings.js'
+import {KeyMap, inputFieldModeMap} from './keybindings/keybindings.js'
 import {Box, Text} from 'ink'
 import TextInput from 'ink-text-input'
 
@@ -11,6 +11,7 @@ export type PortProps = {
 	value: string
 	setter: (s: string) => void
 	progress: Function
+	addMap?: KeyMap
 } & Omit<PortData, 'default'>
 
 export function Port({setter, value, name, progress}: PortProps) {

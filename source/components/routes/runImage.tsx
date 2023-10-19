@@ -5,6 +5,7 @@ import {runDockerAndExit} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress, useProgress} from '../Progress.js'
+import {useBackModeMap} from '../keybindings/keybindings.js'
 
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, local] = usePorts([
@@ -35,6 +36,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		{name: 'Give it a name', short: 'n', description: 'Name the container'},
 	])
 	const prog = useProgress()
+	const map = useBackModeMap(prog.back)
 	const x = useStdout()
 
 	function success() {
@@ -84,19 +86,21 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 						setters={p}
 						progress={() => prog.jump(3, !p[0]?.getState())}
 					/>,
-					<Port {...host} progress={prog.jump} />,
-					<Port {...local} progress={prog.jump} />,
+					<Port {...host} addMap={map} progress={prog.jump} />,
+					<Port {...local} addMap={map} progress={prog.jump} />,
 
 					<OptionToggler
+						addMap={map}
 						setters={n}
 						progress={() => prog.jump(2, !n[0]?.getState())}
 					/>,
-					<Name {...name} progress={prog.jump} />,
+					<Name {...name} addMap={map} progress={prog.jump} />,
 					<OptionToggler
+						addMap={map}
 						setters={[...ti, ...c]}
 						progress={() => prog.incOrCommit(commit, !c[0]?.getState())}
 					/>,
-					<Name {...command} progress={commit} />,
+					<Name addMap={map} {...command} progress={commit} />,
 				]}
 			/>
 		</Box>
