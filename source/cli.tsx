@@ -26,5 +26,13 @@ import App from './app.js';
 // 	},
 // );
 
-render(<App />);
+//@ts-ignore
+const {unmount,clear} = render(<App />);
+export function kill(){
+    clear()
+    unmount()
+}
+export function rend(){
+    render(<App/>)
+}
 //name={cli.flags.name} 

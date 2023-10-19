@@ -69,8 +69,17 @@ export function useName(data: {name: string; default: string}) {
 	return {value: x, setter: setX, name: data.name, getValue}
 }
 export function Name({setter, value, name, progress}: PortProps) {
-	inputFieldModeMap({accept: () => progress()})
-	return (
+	const [toggle, setToggle] = useState<boolean>(false)
+	function accept() {
+		if (!toggle) {
+			setToggle(true)
+			progress()
+		}
+	}
+	inputFieldModeMap({accept: () => accept()})
+	return toggle ? (
+		<></>
+	) : (
 		<Box justifyContent="center" flexDirection="column">
 			<Text>
 				<Text bold>{name}</Text>:

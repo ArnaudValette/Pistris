@@ -1,12 +1,13 @@
 import React from 'react'
 import {ImgSubProps} from './Image.js'
-import {Box, useStdout} from 'ink'
+import {Box} from 'ink'
 import {runDockerAndExit} from '../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../Input.js'
 import {Progress, useProgress} from '../Progress.js'
 import {useAbortMap, useBackModeMap} from '../keybindings/keybindings.js'
 
+//@ts-ignore
 export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const [host, local] = usePorts([
 		{name: 'Host', default: '3000'},
@@ -38,12 +39,6 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 	const prog = useProgress()
 	const map = useBackModeMap(prog.back)
 	const abortMap = useAbortMap(() => setMode('Image'))
-	const x = useStdout()
-
-	function success() {
-		console.log(x)
-		rProps.setMode('Containers')
-	}
 
 	function fail(s: any) {
 		console.log(s)
@@ -75,7 +70,7 @@ export function RunImg({sel, setMode, rProps}: ImgSubProps) {
 		//const res = base.concat(next.join(''))
 		const res = [base, ...next]
 		//runCommand({c: res, fail, success})
-		runDockerAndExit({c: res, fail, success})
+		runDockerAndExit({c: res, fail})
 	}
 
 	return (
