@@ -1,5 +1,6 @@
 import {useInput, Key, useApp, useFocusManager} from 'ink'
 import {RouterProps} from '../../app.js'
+import {SetterData} from '../OptionToggler.js'
 
 export class CME {
 	d: string
@@ -108,17 +109,13 @@ export function inputFieldModeMap({accept}: {accept: Function}) {
 	})
 }
 
-export function runImageOptionsModeMap({
-	setT,
-	setI,
-}: {
-	setT: Function
-	setI: Function
-}) {
-	return {
-		i: new CME('Toggle interactive', () => setI((i: boolean) => !i)),
-		t: new CME('Toggle tty', () => setT((t: boolean) => !t)),
-	}
+export type KeyMap = {[key: string]: CME}
+export function guessMapFromSetters(setters: Array<SetterData>): KeyMap {
+	const map: KeyMap = {}
+	setters.forEach((s: SetterData) => {
+		map[s.short] = new CME(s.description, () => s.hook[1]((b: boolean) => !b))
+	})
+	return map
 }
 
 export function upDownNav() {

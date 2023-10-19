@@ -10,7 +10,7 @@ import {RunImg} from './runImage.js'
 export type ImgSubProps = {
 	setMode: Function
 	sel: Array<string>
-	p: RouterProps
+	rProps: RouterProps
 	data: DTdata
 	setter: Function
 	removeByValueAtIndex: Function
@@ -41,7 +41,7 @@ export function Img(p: RouterProps) {
 				mode={mode}
 				setMode={setMode}
 				sel={sel}
-				p={p}
+				rProps={p}
 				data={data}
 				setter={setSel}
 			/>
@@ -59,11 +59,11 @@ export function ImgSubRouter(props: SubRouterProps) {
 export function ImageSelect({
 	data,
 	setter,
-	p,
+	rProps,
 	setMode,
-}: TableProps & {p: RouterProps; setMode: Function}) {
+}: TableProps & {rProps: RouterProps; setMode: Function}) {
 	const map = imageModeMap({
-		...p,
+		...rProps,
 		remove: () => setMode('RmImg'),
 		run: () => setMode('RunImg'),
 	})
