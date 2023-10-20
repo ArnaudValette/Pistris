@@ -39,7 +39,10 @@ export function KillContainer(props: SubProps) {
 					/>
 				) : (
 					<Flasher>
-						<Confirmator data={props.sel[1] || 'undefined'} />
+						<Confirmator
+							data={props.sel[1] || 'undefined'}
+							overload={'Are you sure you want to kill'}
+						/>
 					</Flasher>
 				)}
 			</Box>

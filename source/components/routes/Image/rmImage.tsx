@@ -75,10 +75,18 @@ export function RmImg({
 		</>
 	)
 }
-export function Confirmator({data}: {data: string}) {
+export function Confirmator({
+	data,
+	overload,
+}: {
+	data: string
+	overload?: string
+}) {
 	return (
 		<>
-			<Text color={colorMap.baseColor}>Are you sure you want to remove </Text>
+			<Text color={colorMap.baseColor}>
+				{overload || 'Are you sure you want to remove'}{' '}
+			</Text>
 			<Text bold color={colorMap.deleteColor}>
 				{data}
 			</Text>
