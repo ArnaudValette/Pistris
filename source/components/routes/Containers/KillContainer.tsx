@@ -10,8 +10,7 @@ import {HelpFooter} from '../../HelpFooter.js'
 export function KillContainer(props: SubProps) {
 	const {flash, Flasher, BackFlash} = useFlashInfo({s: 'Container killed'})
 	function success() {
-		props.removeByValueAtIndex({index: 0, value: props.sel[0]})
-		props.setMode('Container')
+		props.rProps.setMode('Home')
 	}
 	function rmCont() {
 		flash()
