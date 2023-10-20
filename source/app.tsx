@@ -6,8 +6,9 @@ import React, {
 	useState,
 } from 'react'
 import {Box, Text} from 'ink'
-import {Build, Conts, Router, Home} from './components/Routes.js'
+import {Build, Router, Home} from './components/Routes.js'
 import {Img} from './components/routes/Image/Image.js'
+import {Conts} from './components/routes/Containers/Containers.js'
 
 export type CommandHelpProps = {
 	name: string
