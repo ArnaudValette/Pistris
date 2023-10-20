@@ -25,30 +25,6 @@ export function helpModeMap({setMode}: RouterProps) {
 	}
 }
 
-export function contsModeMap({
-	setMode,
-	remove,
-	start,
-	kill,
-	filter,
-}: RouterProps & {
-	remove: Function
-	start: Function
-	kill: Function
-	filter: Function
-}) {
-	const {exit} = useApp()
-	return {
-		q: new Q(exit),
-		b: new CME('home', () => setMode('Home')),
-		i: new CME('list images', () => setMode('Images')),
-		d: new CME('remove', () => remove()),
-		o: new CME('start', () => start()),
-		x: new CME('kill', () => kill()),
-		f: new CME('show/hide active', () => filter()),
-	}
-}
-
 export function imageModeMap({
 	setMode,
 	remove,
@@ -62,6 +38,30 @@ export function imageModeMap({
 		c: new CME('list containers', () => setMode('Containers')),
 		d: new CME('remove image', () => remove()),
 		o: new CME('Run image', () => run()),
+		'/': new CME('Search', () => find()),
+	}
+}
+
+export function containerModeMap({
+	setMode,
+	remove,
+	start,
+	find,
+	kill,
+}: RouterProps & {
+	remove: Function
+	start: Function
+	find: Function
+	kill: Function
+}) {
+	const {exit} = useApp()
+	return {
+		q: new Q(exit),
+		b: new CME('home', () => setMode('Home')),
+		i: new CME('list images', () => setMode('Images')),
+		d: new CME('remove', () => remove()),
+		o: new CME('start', () => start()),
+		x: new CME('kill', () => kill()),
 		'/': new CME('Search', () => find()),
 	}
 }

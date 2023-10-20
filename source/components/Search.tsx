@@ -1,16 +1,16 @@
 import {Box, Text, useFocus, useInput} from 'ink'
 import React, {useEffect, useState} from 'react'
-import {ImgSubProps} from './routes/Image/Image.js'
 import TextInput from 'ink-text-input'
 import Fuse from 'fuse.js'
 import {customModeMap, upDownNav} from './keybindings/keybindings.js'
+import {SubProps} from './Routes.js'
 
 export function useSearch() {
 	const [val, setVal] = useState<string>('')
 	return {val, setVal}
 }
 
-export function PreSearch({data, setMode, focused}: ImgSubProps) {
+export function PreSearch({data, setMode, focused}: SubProps) {
 	const searchable: Array<string> = data.rows.map(
 		(a: string[]) => a[0] as string,
 	)

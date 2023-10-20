@@ -1,10 +1,33 @@
-import {Fragment, ReactElement} from 'react'
-import {RouterProps} from '../app.js'
+import {Fragment, MutableRefObject, ReactElement} from 'react'
+import {DTdata, RouterProps} from '../app.js'
 import React from 'react'
 import {helpModeMap} from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
 import {HelpFooter} from './HelpFooter.js'
 import {HomePage} from './HomePage.js'
+
+export type SelectorProps = {
+	rProps: RouterProps
+	setMode: Function
+	focused: MutableRefObject<number>
+}
+export type SubProps = {
+	setMode: Function
+	sel: Array<string>
+	rProps: RouterProps
+	data: DTdata
+	focused: MutableRefObject<number>
+	setter: Function
+	removeByValueAtIndex: Function
+}
+export type SubRouterProps = {
+	Routes: Disp
+	mode: keyof Disp
+} & SubProps
+
+export type Disp = {
+	[key: string]: (props: SubProps) => ReactElement<any, any>
+}
 
 export function Router(props: RouterProps): ReactElement<any, any> {
 	const Route = props.dsptch[props.mode] || Fragment
@@ -18,6 +41,12 @@ export function Build(p: RouterProps) {
 			<Text>Build</Text>
 		</Box>
 	)
+}
+export function SubRouter(props: SubRouterProps) {
+	const {Routes, mode, ...rest} = props
+	const Route = Routes[mode]
+	//@ts-ignore
+	return <Route {...rest} />
 }
 
 export function Home(p: RouterProps) {

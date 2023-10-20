@@ -1,13 +1,13 @@
 import React from 'react'
-import {ImgSubProps} from './Image.js'
 import {Box} from 'ink'
 import {runDockerAndExit} from '../../../lib/functions.js'
 import {OptionToggler, SetterData, useOptionsHook} from '../../OptionToggler.js'
 import {Name, Port, PortMappingProps, useName, usePorts} from '../../Input.js'
 import {Progress, useProgress} from '../../Progress.js'
 import {useAbortMap, useBackModeMap} from '../../keybindings/keybindings.js'
+import {SubProps} from '../../Routes.js'
 
-export function RunImg({sel, setMode}: ImgSubProps) {
+export function RunImg({sel, setMode}: SubProps) {
 	const [host, local] = usePorts([
 		{name: 'Host', default: '3000'},
 		{name: 'Local', default: '3000'},

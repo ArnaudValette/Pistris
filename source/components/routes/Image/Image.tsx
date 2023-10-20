@@ -1,40 +1,19 @@
-import React, {MutableRefObject, ReactElement, useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import {Box} from 'ink'
-import {DTdata, RouterProps, TableProps} from '../../../app.js'
+import {RouterProps, TableProps} from '../../../app.js'
 import {RmImg} from './rmImage.js'
 import {RunImg} from './runImage.js'
 import {PreSearch} from '../../Search.js'
 import {DockerTable, useDockerTable} from '../../Table.js'
 import {imageModeMap, useCustomInput} from '../../keybindings/keybindings.js'
 import {HelpFooter} from '../../HelpFooter.js'
-
-export type ImgSubProps = {
-	setMode: Function
-	sel: Array<string>
-	rProps: RouterProps
-	data: DTdata
-	focused: MutableRefObject<number>
-	setter: Function
-	removeByValueAtIndex: Function
-}
-export type ImgDisp = {
-	[key: string]: (props: ImgSubProps) => ReactElement<any, any>
-}
-export type SubRouterProps = {
-	Routes: ImgDisp
-	mode: keyof ImgDisp
-} & ImgSubProps
+import {SelectorProps, SubRouter} from '../../Routes.js'
 
 const ImageDispatch = {
 	Image: ImageSelect,
 	RmImg: RmImg,
 	RunImg: RunImg,
 	Search: PreSearch,
-}
-export type SelectorProps = {
-	rProps: RouterProps
-	setMode: Function
-	focused: MutableRefObject<number>
 }
 
 export function Img(p: RouterProps) {
@@ -44,7 +23,7 @@ export function Img(p: RouterProps) {
 	const focused = useRef<number>(0)
 	return (
 		<>
-			<ImgSubRouter
+			<SubRouter
 				removeByValueAtIndex={removeByValueAtIndex}
 				Routes={ImageDispatch}
 				mode={mode}
@@ -57,13 +36,6 @@ export function Img(p: RouterProps) {
 			/>
 		</>
 	)
-}
-
-export function ImgSubRouter(props: SubRouterProps) {
-	const {Routes, mode, ...rest} = props
-	const Route = Routes[mode]
-	//@ts-ignore
-	return <Route {...rest} />
 }
 
 export function ImageSelect({
