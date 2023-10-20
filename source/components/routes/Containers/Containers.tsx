@@ -7,14 +7,11 @@ import {
 } from '../../keybindings/keybindings.js'
 import {Box} from 'ink'
 import {HelpFooter} from '../../HelpFooter.js'
-import {
-	Disp,
-	PistrisSubRouteSelector,
-	SelectorProps,
-	SubProps,
-} from '../../Routes.js'
+import {Disp, PistrisSubRouteSelector, SelectorProps} from '../../Routes.js'
 import {PreSearch} from '../../Search.js'
 import {RmContainer} from './RmContainer.js'
+import {StartContainer} from './StartContainer.js'
+import {KillContainer} from './KillContainer.js'
 
 const Routes: Disp = {
 	Container: ContainerSelect,
@@ -30,13 +27,6 @@ export function Conts(rProps: RouterProps) {
 			{...{rProps, command, initialState, Routes, indexOfSearchColumn: 1}}
 		/>
 	)
-}
-export function StartContainer({}: SubProps) {
-	return <Box></Box>
-}
-
-export function KillContainer({}: SubProps) {
-	return <Box></Box>
 }
 export function ContainerSelect({
 	data,

@@ -1,7 +1,11 @@
 import {Text} from 'ink'
-import React, {PropsWithChildren, useState} from 'react'
+import React, {PropsWithChildren, useEffect, useState} from 'react'
 import {colorMap} from '../app.js'
 
+export type BackFlashProps = {
+	then: Function
+	for: string
+}
 export function useFlashInfo({s}: {s: string}) {
 	const [toggle, setToggle] = useState<boolean>(false)
 	function flash() {
@@ -13,5 +17,13 @@ export function useFlashInfo({s}: {s: string}) {
 			<>{toggle ? <Text color={colorMap.baseColor}>{s}</Text> : children}</>
 		)
 	}
-	return {flash, Flasher}
+	function BackFlash(b: BackFlashProps) {
+		useEffect(() => {
+			setTimeout(() => {
+				b.then()
+			}, 500)
+		}, [])
+		return <Text color={colorMap.baseColor}>{b.for}</Text>
+	}
+	return {flash, Flasher, BackFlash}
 }
