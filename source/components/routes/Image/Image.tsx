@@ -31,6 +31,11 @@ const ImageDispatch = {
 	RunImg: RunImg,
 	Search: PreSearch,
 }
+export type SelectorProps = {
+	rProps: RouterProps
+	setMode: Function
+	focused: MutableRefObject<number>
+}
 
 export function Img(p: RouterProps) {
 	const {data, removeByValueAtIndex} = useDockerTable('docker image ls')
@@ -67,11 +72,7 @@ export function ImageSelect({
 	rProps,
 	setMode,
 	focused,
-}: TableProps & {
-	rProps: RouterProps
-	setMode: Function
-	focused: MutableRefObject<number>
-}) {
+}: TableProps & SelectorProps) {
 	const map = imageModeMap({
 		...rProps,
 		remove: () => setMode('RmImg'),
