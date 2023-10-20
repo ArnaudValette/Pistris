@@ -1,43 +1,32 @@
-import React, {useRef, useState} from 'react'
+import React from 'react'
 import {RouterProps, TableProps} from '../../../app.js'
-import {DockerTable, useDockerTable} from '../../Table.js'
+import {DockerTable} from '../../Table.js'
 import {
 	containerModeMap,
 	useCustomInput,
 } from '../../keybindings/keybindings.js'
 import {Box} from 'ink'
 import {HelpFooter} from '../../HelpFooter.js'
-import {SelectorProps, SubProps, SubRouter} from '../../Routes.js'
+import {
+	Disp,
+	PistrisSubRouteSelector,
+	SelectorProps,
+	SubProps,
+} from '../../Routes.js'
 import {PreSearch} from '../../Search.js'
 
-const ContsDispatch = {
+const Routes: Disp = {
 	Container: ContainerSelect,
 	StartContainer: StartContainer,
 	Search: PreSearch,
 	KillContainer: KillContainer,
 }
-export function Conts(p: RouterProps) {
-	const {data, removeByValueAtIndex} = useDockerTable('docker ps -a')
-	const [mode, setMode] = useState('Container')
-	const [sel, setSel] = useState([])
-	const focused = useRef<number>(0)
+export function Conts(rProps: RouterProps) {
+	const [command, initialState] = ['docker ps -a', 'Container']
 	return (
-		<>
-			<SubRouter
-				Routes={ContsDispatch}
-				mode={mode}
-				setMode={setMode}
-				sel={sel}
-				rProps={p}
-				data={data}
-				focused={focused}
-				setter={setSel}
-				removeByValueAtIndex={removeByValueAtIndex}
-			/>
-		</>
+		<PistrisSubRouteSelector {...{rProps, command, initialState, Routes}} />
 	)
 }
-
 export function StartContainer({}: SubProps) {
 	return <Box></Box>
 }

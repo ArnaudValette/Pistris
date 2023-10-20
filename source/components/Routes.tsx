@@ -1,10 +1,11 @@
-import {Fragment, MutableRefObject, ReactElement} from 'react'
+import {Fragment, MutableRefObject, ReactElement, useRef, useState} from 'react'
 import {DTdata, RouterProps} from '../app.js'
 import React from 'react'
 import {helpModeMap} from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
 import {HelpFooter} from './HelpFooter.js'
 import {HomePage} from './HomePage.js'
+import {useDockerTable} from './Table.js'
 
 export type SelectorProps = {
 	rProps: RouterProps
@@ -34,6 +35,45 @@ export function Router(props: RouterProps): ReactElement<any, any> {
 	return <Route {...props} />
 }
 
+export function SubRouter(props: SubRouterProps) {
+	const {Routes, mode, ...rest} = props
+	const Route = Routes[mode]
+	//@ts-ignore
+	return <Route {...rest} />
+}
+
+export type PistrisSubRouteSelectorProps = {
+	rProps: RouterProps
+	command: string
+	initialState: string
+	Routes: Disp
+}
+export function PistrisSubRouteSelector({
+	rProps,
+	command,
+	initialState,
+	Routes,
+}: PistrisSubRouteSelectorProps) {
+	const {data, removeByValueAtIndex} = useDockerTable(command)
+	const [mode, setMode] = useState(initialState)
+	const [sel, setter] = useState([])
+	const focused = useRef<number>(0)
+	return (
+		<SubRouter
+			{...{
+				Routes,
+				mode,
+				setMode,
+				sel,
+				rProps,
+				data,
+				focused,
+				setter,
+				removeByValueAtIndex,
+			}}
+		/>
+	)
+}
 export function Build(p: RouterProps) {
 	console.log(p)
 	return (
@@ -41,12 +81,6 @@ export function Build(p: RouterProps) {
 			<Text>Build</Text>
 		</Box>
 	)
-}
-export function SubRouter(props: SubRouterProps) {
-	const {Routes, mode, ...rest} = props
-	const Route = Routes[mode]
-	//@ts-ignore
-	return <Route {...rest} />
 }
 
 export function Home(p: RouterProps) {
