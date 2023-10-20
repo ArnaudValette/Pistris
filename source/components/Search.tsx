@@ -1,6 +1,6 @@
 import {Box, Text, useFocus, useInput} from 'ink'
 import React, {useEffect, useState} from 'react'
-import {ImgSubProps} from './routes/Image.js'
+import {ImgSubProps} from './routes/Image/Image.js'
 import TextInput from 'ink-text-input'
 import Fuse from 'fuse.js'
 import {customModeMap, upDownNav} from './keybindings/keybindings.js'

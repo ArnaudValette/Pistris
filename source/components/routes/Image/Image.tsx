@@ -1,12 +1,12 @@
 import React, {MutableRefObject, ReactElement, useRef, useState} from 'react'
-import {DTdata, RouterProps, TableProps} from '../../app.js'
-import {DockerTable, useDockerTable} from '../Table.js'
-import {imageModeMap, useCustomInput} from '../keybindings/keybindings.js'
 import {Box} from 'ink'
-import {HelpFooter} from '../HelpFooter.js'
+import {DTdata, RouterProps, TableProps} from '../../../app.js'
 import {RmImg} from './rmImage.js'
 import {RunImg} from './runImage.js'
-import {PreSearch} from '../Search.js'
+import {PreSearch} from '../../Search.js'
+import {DockerTable, useDockerTable} from '../../Table.js'
+import {imageModeMap, useCustomInput} from '../../keybindings/keybindings.js'
+import {HelpFooter} from '../../HelpFooter.js'
 
 export type ImgSubProps = {
 	setMode: Function

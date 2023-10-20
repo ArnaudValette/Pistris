@@ -1,10 +1,10 @@
 import {Box, Text} from 'ink'
 import React, {useState} from 'react'
 import {ImgSubProps} from './Image.js'
-import {useFlashInfo} from '../useFlashInfo.js'
-import {handleError, runCommand} from '../../lib/functions.js'
-import {rmImgModeMap, useCustomInput} from '../keybindings/keybindings.js'
-import {HelpFooter} from '../HelpFooter.js'
+import {useFlashInfo} from '../../useFlashInfo.js'
+import {handleError, runCommand} from '../../../lib/functions.js'
+import {rmImgModeMap, useCustomInput} from '../../keybindings/keybindings.js'
+import {HelpFooter} from '../../HelpFooter.js'
 
 export function RmImg({
 	sel,
