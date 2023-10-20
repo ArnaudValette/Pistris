@@ -19,6 +19,7 @@ const Routes: Disp = {
 	Search: PreSearch,
 	KillContainer: KillContainer,
 	RmContainer: RmContainer,
+	//TODO: should add an ATTACH option
 }
 export function Conts(rProps: RouterProps) {
 	const [command, initialState] = ['docker ps -a', 'Container']
