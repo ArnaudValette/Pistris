@@ -77,22 +77,22 @@ const colorMapLight = {
 
 //@ts-ignore
 const defaultMap = {
-	mainFrame: '#0000FF',
-	routeFlag: '#DD00DD',
-	Pistris: '#AA55FF',
-	helpFrame: '#FF00CC',
-	helpIndices: '#FF11AA',
-	helpDesc: '#5511AA',
+	mainFrame: 'white',
+	routeFlag: 'red',
+	Pistris: 'purple',
+	helpFrame: 'blue',
+	helpIndices: 'white',
+	helpDesc: 'white',
 	nothingToSee: 'yellow',
-	baseColor: '#000000',
-	dimColor: '#66AABB',
-	dimColor2: '#bd9c6d',
-	optionsFrame: '#33CC33',
-	On: '#00AAAA',
-	Off: '#FF00AA',
-	deleteColor: '#FF00AA',
+	baseColor: 'white',
+	dimColor: 'blue',
+	dimColor2: 'blue',
+	optionsFrame: 'blue',
+	On: 'green',
+	Off: 'red',
+	deleteColor: 'red',
 }
-export const colorMap = colorMapLight
+export const colorMap = defaultMap
 export default function App() {
 	const [mode, setMode] = useState<keyof RouterDisp>('Home')
 	return (
