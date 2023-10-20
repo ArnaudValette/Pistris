@@ -14,12 +14,14 @@ import {
 	SubProps,
 } from '../../Routes.js'
 import {PreSearch} from '../../Search.js'
+import {RmContainer} from './RmContainer.js'
 
 const Routes: Disp = {
 	Container: ContainerSelect,
 	StartContainer: StartContainer,
 	Search: PreSearch,
 	KillContainer: KillContainer,
+	RmContainer: RmContainer,
 }
 export function Conts(rProps: RouterProps) {
 	const [command, initialState] = ['docker ps -a', 'Container']
