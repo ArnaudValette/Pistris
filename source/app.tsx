@@ -59,18 +59,36 @@ const colorMapDark = {
 }
 //@ts-ignore
 const colorMapLight = {
-	mainFrame: '#0000AA',
-	routeFlag: '#AA00FF',
+	mainFrame: '#0000FF',
+	routeFlag: '#DD00DD',
 	Pistris: '#AA55FF',
-	helpFrame: '#FF99CC',
-	helpIndices: '#EEEEFF',
-	helpDesc: '#AAFFFF',
+	helpFrame: '#FF00CC',
+	helpIndices: '#FF11AA',
+	helpDesc: '#5511AA',
 	nothingToSee: 'yellow',
-	baseColor: '#FFFFFF',
+	baseColor: '#000000',
 	dimColor: '#66AABB',
-	dimColor2: '#6d9cbd',
-	optionsFrame: '#335533',
-	On: '#00FFAA',
+	dimColor2: '#bd9c6d',
+	optionsFrame: '#33CC33',
+	On: '#00AAAA',
+	Off: '#FF00AA',
+	deleteColor: '#FF00AA',
+}
+
+//@ts-ignore
+const defaultMap = {
+	mainFrame: '#0000FF',
+	routeFlag: '#DD00DD',
+	Pistris: '#AA55FF',
+	helpFrame: '#FF00CC',
+	helpIndices: '#FF11AA',
+	helpDesc: '#5511AA',
+	nothingToSee: 'yellow',
+	baseColor: '#000000',
+	dimColor: '#66AABB',
+	dimColor2: '#bd9c6d',
+	optionsFrame: '#33CC33',
+	On: '#00AAAA',
 	Off: '#FF00AA',
 	deleteColor: '#FF00AA',
 }
