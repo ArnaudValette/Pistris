@@ -8,9 +8,14 @@ export type BackFlashProps = {
 }
 export function useFlashInfo({s}: {s: string}) {
 	const [toggle, setToggle] = useState<boolean>(false)
-	function flash() {
+	function flash(then?: Function) {
 		setToggle(true)
-		setTimeout(() => setToggle(false), 500)
+		setTimeout(() => {
+			setToggle(false)
+			if (then) {
+				then()
+			}
+		}, 500)
 	}
 	function Flasher({children}: PropsWithChildren): React.ReactElement {
 		return (
@@ -25,5 +30,5 @@ export function useFlashInfo({s}: {s: string}) {
 		}, [])
 		return <Text color={colorMap.baseColor}>{b.for}</Text>
 	}
-	return {flash, Flasher, BackFlash}
+	return {flash, Flasher, BackFlash, toggle}
 }

@@ -39,8 +39,8 @@ export function RunImg({sel, setMode}: SubProps) {
 	const map = useBackModeMap(prog.back)
 	const abortMap = useAbortMap(() => setMode('Image'))
 
+	//@ts-ignore
 	function fail(s: any) {
-		console.log(s)
 		setMode('Image')
 	}
 
