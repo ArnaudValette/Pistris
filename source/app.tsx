@@ -79,7 +79,7 @@ const colorMapLight = {
 const defaultMap = {
 	mainFrame: undefined,
 	routeFlag: 'red',
-	Pistris: 'purple',
+	Pistris: undefined,
 	helpFrame: 'blue',
 	helpIndices: undefined,
 	helpDesc: undefined,
