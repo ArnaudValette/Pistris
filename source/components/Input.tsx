@@ -72,7 +72,7 @@ export function Name({setter, value, name, progress}: PortProps) {
 	inputFieldModeMap({accept: () => progress()})
 	return (
 		<Box justifyContent="center" flexDirection="column">
-			<Text>
+			<Text color={colorMap.baseColor}>
 				<Text bold>{name}</Text>:
 			</Text>
 			<Box

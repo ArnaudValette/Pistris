@@ -4,6 +4,7 @@ import TextInput from 'ink-text-input'
 import Fuse from 'fuse.js'
 import {customModeMap, upDownNav} from './keybindings/keybindings.js'
 import {SubProps} from './Routes.js'
+import {colorMap} from '../app.js'
 
 export function useSearch() {
 	const [val, setVal] = useState<string>('')
@@ -128,7 +129,10 @@ function FuzzyElement({item, data, setFocused, index}: FuzzyElementProps) {
 		}
 	}, [f.isFocused])
 	return (
-		<Text color={f.isFocused ? 'white' : 'blue'} bold={f.isFocused}>
+		<Text
+			color={f.isFocused ? colorMap.baseColor : colorMap.dimColor2}
+			bold={f.isFocused}
+		>
 			{item}
 		</Text>
 	)

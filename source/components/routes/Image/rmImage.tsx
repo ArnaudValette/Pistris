@@ -57,11 +57,16 @@ export function RmImg({
 							<Text color={colorMap.deleteColor} bold>
 								{sel[0]}{' '}
 							</Text>
-							<Text>is used in container </Text>
-							<Text italic>{s} </Text>
-							<Text> kill and remove this container </Text>
+							<Text color={colorMap.baseColor}>is used in container </Text>
+							<Text italic color={colorMap.baseColor}>
+								{s}{' '}
+							</Text>
+							<Text color={colorMap.baseColor}>
+								{' '}
+								kill and remove this container{' '}
+							</Text>
 							<Text color={colorMap.helpIndices}>(Y/n) </Text>
-							<Text>?</Text>
+							<Text color={colorMap.baseColor}>?</Text>
 						</Text>
 					</Flasher>
 				)}
@@ -73,11 +78,11 @@ export function RmImg({
 export function Confirmator({data}: {data: string}) {
 	return (
 		<>
-			<Text>Are you sure you want to remove </Text>
+			<Text color={colorMap.baseColor}>Are you sure you want to remove </Text>
 			<Text bold color={colorMap.deleteColor}>
 				{data}
 			</Text>
-			<Text> ?</Text>
+			<Text color={colorMap.baseColor}> ?</Text>
 		</>
 	)
 }

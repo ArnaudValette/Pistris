@@ -17,7 +17,9 @@ export function HomePage() {
 			</Box>
 			<Spacer />
 			<Box flexDirection="row" justifyContent="center" width={'100%'}>
-				<Text italic>a comfy docker CLI</Text>
+				<Text italic color={colorMap.baseColor}>
+					a comfy docker CLI
+				</Text>
 			</Box>
 		</Box>
 	)

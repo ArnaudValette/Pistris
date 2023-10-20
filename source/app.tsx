@@ -40,7 +40,8 @@ const Dispatch: RouterDisp = {
 	build: Build,
 }
 
-export const colorMap = {
+//@ts-ignore
+const colorMapDark = {
 	mainFrame: '#0000AA',
 	routeFlag: '#AA00FF',
 	Pistris: '#AA55FF',
@@ -54,8 +55,26 @@ export const colorMap = {
 	optionsFrame: '#335533',
 	On: '#00FFAA',
 	Off: '#FF00AA',
-	deleteColor: 'red',
+	deleteColor: '#FF00AA',
 }
+//@ts-ignore
+const colorMapLight = {
+	mainFrame: '#0000AA',
+	routeFlag: '#AA00FF',
+	Pistris: '#AA55FF',
+	helpFrame: '#FF99CC',
+	helpIndices: '#EEEEFF',
+	helpDesc: '#AAFFFF',
+	nothingToSee: 'yellow',
+	baseColor: '#FFFFFF',
+	dimColor: '#66AABB',
+	dimColor2: '#6d9cbd',
+	optionsFrame: '#335533',
+	On: '#00FFAA',
+	Off: '#FF00AA',
+	deleteColor: '#FF00AA',
+}
+export const colorMap = colorMapLight
 export default function App() {
 	const [mode, setMode] = useState<keyof RouterDisp>('Home')
 	return (

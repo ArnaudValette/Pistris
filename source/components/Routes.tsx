@@ -1,5 +1,5 @@
 import {Fragment, MutableRefObject, ReactElement, useRef, useState} from 'react'
-import {DTdata, RouterProps} from '../app.js'
+import {DTdata, RouterProps, colorMap} from '../app.js'
 import React from 'react'
 import {helpModeMap} from './keybindings/keybindings.js'
 import {Box, useInput, Text} from 'ink'
@@ -84,7 +84,7 @@ export function Build(p: RouterProps) {
 	console.log(p)
 	return (
 		<Box>
-			<Text>Build</Text>
+			<Text color={colorMap.baseColor}>Build</Text>
 		</Box>
 	)
 }

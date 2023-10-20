@@ -60,7 +60,9 @@ export function OptionToggler({setters, progress, addMap}: OptionTogglerProps) {
 function Option({val, name}: {val: boolean; name: string}) {
 	return (
 		<Box gap={1}>
-			<Text bold>{name}:</Text>
+			<Text color={colorMap.baseColor} bold>
+				{name}:
+			</Text>
 			{val ? (
 				<Text color={colorMap.On} italic bold>
 					ON
