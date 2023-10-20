@@ -77,14 +77,14 @@ const colorMapLight = {
 
 //@ts-ignore
 const defaultMap = {
-	mainFrame: 'white',
+	mainFrame: undefined,
 	routeFlag: 'red',
 	Pistris: 'purple',
 	helpFrame: 'blue',
-	helpIndices: 'white',
-	helpDesc: 'white',
+	helpIndices: undefined,
+	helpDesc: undefined,
 	nothingToSee: 'yellow',
-	baseColor: 'white',
+	baseColor: undefined,
 	dimColor: 'blue',
 	dimColor2: 'blue',
 	optionsFrame: 'blue',
