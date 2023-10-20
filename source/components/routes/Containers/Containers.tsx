@@ -24,7 +24,9 @@ const Routes: Disp = {
 export function Conts(rProps: RouterProps) {
 	const [command, initialState] = ['docker ps -a', 'Container']
 	return (
-		<PistrisSubRouteSelector {...{rProps, command, initialState, Routes}} />
+		<PistrisSubRouteSelector
+			{...{rProps, command, initialState, Routes, indexOfSearchColumn: 1}}
+		/>
 	)
 }
 export function StartContainer({}: SubProps) {

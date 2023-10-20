@@ -10,12 +10,18 @@ export function useSearch() {
 	return {val, setVal}
 }
 
-export function PreSearch({data, setMode, focused}: SubProps) {
+export function PreSearch({
+	data,
+	setMode,
+	focused,
+	indexOfSearchColumn,
+	initialState,
+}: SubProps) {
 	const searchable: Array<string> = data.rows.map(
-		(a: string[]) => a[0] as string,
+		(a: string[]) => a[indexOfSearchColumn] as string,
 	)
 	const dummy: Array<FuseRes> = data.rows.map((a: string[], i: number) => ({
-		item: a[0] || '',
+		item: a[indexOfSearchColumn] || '',
 		refIndex: i,
 		score: 1,
 	}))
@@ -25,10 +31,10 @@ export function PreSearch({data, setMode, focused}: SubProps) {
 	customModeMap({
 		escape: () => {
 			setFocused(0)
-			setMode('Image')
+			setMode(initialState)
 		},
 		return: () => {
-			setMode('Image')
+			setMode(initialState)
 		},
 	})
 	return (

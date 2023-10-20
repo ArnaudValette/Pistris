@@ -20,6 +20,8 @@ export type SubProps = {
 	focused: MutableRefObject<number>
 	setter: Function
 	removeByValueAtIndex: Function
+	indexOfSearchColumn: number
+	initialState: string
 }
 export type SubRouterProps = {
 	Routes: Disp
@@ -47,12 +49,14 @@ export type PistrisSubRouteSelectorProps = {
 	command: string
 	initialState: string
 	Routes: Disp
+	indexOfSearchColumn?: number
 }
 export function PistrisSubRouteSelector({
 	rProps,
 	command,
 	initialState,
 	Routes,
+	indexOfSearchColumn,
 }: PistrisSubRouteSelectorProps) {
 	const {data, removeByValueAtIndex} = useDockerTable(command)
 	const [mode, setMode] = useState(initialState)
@@ -66,10 +70,12 @@ export function PistrisSubRouteSelector({
 				setMode,
 				sel,
 				rProps,
+				initialState,
 				data,
 				focused,
 				setter,
 				removeByValueAtIndex,
+				indexOfSearchColumn: indexOfSearchColumn || 0,
 			}}
 		/>
 	)
