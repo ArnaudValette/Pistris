@@ -5,6 +5,7 @@ import {handleError, runCommand} from '../../../lib/functions.js'
 import {rmImgModeMap, useCustomInput} from '../../keybindings/keybindings.js'
 import {HelpFooter} from '../../HelpFooter.js'
 import {SubProps} from '../../Routes.js'
+import {colorMap} from '../../../app.js'
 
 export function RmImg({
 	sel,
@@ -53,13 +54,13 @@ export function RmImg({
 				) : (
 					<Flasher>
 						<Text>
-							<Text color={'red'} bold>
+							<Text color={colorMap.deleteColor} bold>
 								{sel[0]}{' '}
 							</Text>
 							<Text>is used in container </Text>
 							<Text italic>{s} </Text>
 							<Text> kill and remove this container </Text>
-							<Text color={'blue'}>(Y/n) </Text>
+							<Text color={colorMap.helpIndices}>(Y/n) </Text>
 							<Text>?</Text>
 						</Text>
 					</Flasher>
@@ -73,7 +74,7 @@ export function Confirmator({data}: {data: string}) {
 	return (
 		<>
 			<Text>Are you sure you want to remove </Text>
-			<Text bold color="red">
+			<Text bold color={colorMap.deleteColor}>
 				{data}
 			</Text>
 			<Text> ?</Text>

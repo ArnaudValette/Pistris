@@ -40,12 +40,32 @@ const Dispatch: RouterDisp = {
 	build: Build,
 }
 
+export const colorMap = {
+	mainFrame: '#0000AA',
+	routeFlag: '#AA00FF',
+	Pistris: '#AA55FF',
+	helpFrame: '#FF99CC',
+	helpIndices: '#EEEEFF',
+	helpDesc: '#AAFFFF',
+	nothingToSee: 'yellow',
+	baseColor: '#FFFFFF',
+	dimColor: '#66AABB',
+	dimColor2: '#6d9cbd',
+	optionsFrame: '#335533',
+	On: '#00FFAA',
+	Off: '#FF00AA',
+	deleteColor: 'red',
+}
 export default function App() {
 	const [mode, setMode] = useState<keyof RouterDisp>('Home')
 	return (
-		<Box borderStyle="round" flexDirection="column">
+		<Box
+			borderStyle="round"
+			borderColor={colorMap.mainFrame}
+			flexDirection="column"
+		>
 			<Box margin={1}>
-				<Text bold inverse>{`    ${mode}    `}</Text>
+				<Text bold inverse color={colorMap.routeFlag}>{`    ${mode}    `}</Text>
 			</Box>
 			<Router dsptch={Dispatch} mode={mode} setMode={setMode} />
 		</Box>

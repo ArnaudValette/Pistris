@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {KeyMap, inputFieldModeMap} from './keybindings/keybindings.js'
 import {Box, Text} from 'ink'
 import TextInput from 'ink-text-input'
+import {colorMap} from '../app.js'
 
 export type PortData = {
 	name: string
@@ -20,7 +21,7 @@ export function Port({setter, value, name, progress}: PortProps) {
 		<Box justifyContent="center" flexDirection="column">
 			<Text>
 				<Text bold>{name}</Text> port{' '}
-				<Text color={'blue'}>
+				<Text color={colorMap.helpIndices}>
 					(enter to skip, defaulted to <Text italic>3000</Text>)
 				</Text>
 				:
@@ -28,8 +29,7 @@ export function Port({setter, value, name, progress}: PortProps) {
 			<Box
 				justifyContent="center"
 				borderStyle={'single'}
-				borderColor={'blue'}
-				borderDimColor
+				borderColor={colorMap.optionsFrame}
 				minWidth={10}
 			>
 				<TextInput value={value} onChange={setter} />
@@ -78,7 +78,7 @@ export function Name({setter, value, name, progress}: PortProps) {
 			<Box
 				justifyContent="center"
 				borderStyle={'single'}
-				borderColor={'blue'}
+				borderColor={colorMap.optionsFrame}
 				borderDimColor
 				minWidth={10}
 			>

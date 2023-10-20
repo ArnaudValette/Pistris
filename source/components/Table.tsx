@@ -1,7 +1,7 @@
 import {exec} from 'child_process'
 import {Text, Box, useApp, useFocus} from 'ink'
 import React, {useEffect, useState} from 'react'
-import {DTdata, TableProps} from '../app.js'
+import {DTdata, TableProps, colorMap} from '../app.js'
 
 export function useDockerTable(command: string): {
 	data: DTdata
@@ -74,7 +74,10 @@ export function TableRow({
 		>
 			{row.map((s: string, i: number) => (
 				<Box justifyContent="center" key={i} width={`${100 / row.length}%`}>
-					<Text color={f.isFocused ? 'white' : 'blue'} dimColor={head || false}>
+					<Text
+						color={f.isFocused ? colorMap.baseColor : colorMap.dimColor2}
+						dimColor={head || false}
+					>
 						{s}
 					</Text>
 				</Box>
@@ -98,7 +101,7 @@ export function DockerTable({data, setter, focused}: TableProps) {
 				))
 			) : (
 				<Box justifyContent="center">
-					<Text color={'yellow'}>There's nothing to see...</Text>
+					<Text color={colorMap.nothingToSee}>There's nothing to see...</Text>
 				</Box>
 			)}
 		</Box>

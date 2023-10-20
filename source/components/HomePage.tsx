@@ -1,5 +1,6 @@
 import {Box, Spacer, Text} from 'ink'
 import React from 'react'
+import {colorMap} from '../app.js'
 
 export function HomePage() {
 	return (
@@ -10,7 +11,7 @@ export function HomePage() {
 			padding={5}
 		>
 			<Box flexDirection="row" justifyContent="center" width={'100%'}>
-				<Text color="white" bold>
+				<Text color={colorMap.Pistris} bold>
 					Pistris
 				</Text>
 			</Box>

@@ -7,6 +7,7 @@ import {
 } from './keybindings/keybindings.js'
 import {HelpFooter} from './HelpFooter.js'
 import {Box, Text} from 'ink'
+import {colorMap} from '../app.js'
 
 export type OptionTogglerProps = {
 	setters: Array<SetterData>
@@ -41,10 +42,11 @@ export function OptionToggler({setters, progress, addMap}: OptionTogglerProps) {
 			<Box
 				width={'75%'}
 				justifyContent="center"
-				borderStyle={'single'}
-				borderColor={'blue'}
-				borderDimColor
+				borderStyle={'round'}
+				borderColor={colorMap.optionsFrame}
 				flexDirection="column"
+				padding={1}
+				marginBottom={3}
 			>
 				{setters.map((s: SetterData, index: number) => (
 					<Option key={index} name={s.name} val={s.getState()} />
@@ -57,14 +59,14 @@ export function OptionToggler({setters, progress, addMap}: OptionTogglerProps) {
 
 function Option({val, name}: {val: boolean; name: string}) {
 	return (
-		<Box>
+		<Box gap={1}>
 			<Text bold>{name}:</Text>
 			{val ? (
-				<Text color={'green'} italic bold>
+				<Text color={colorMap.On} italic bold>
 					ON
 				</Text>
 			) : (
-				<Text color={'red'} italic bold>
+				<Text color={colorMap.Off} italic bold>
 					off
 				</Text>
 			)}
